@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "923481514429",
+    "firebase_url": "https://kotlinmvvm-example.firebaseio.com",
+    "project_id": "kotlinmvvm-example",
+    "storage_bucket": "kotlinmvvm-example.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923481514429:android:1bd1660e600e49e2d5b2d4",
+        "android_client_info": {
+          "package_name": "com.nextus.kotlinmvvmexample"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923481514429-n25g2uv1nl6ikkthhcdjp6e2ebm7hhps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMzHZQKUBVh8QZqqRy3qiXMrsZRjoaaTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923481514429-n25g2uv1nl6ikkthhcdjp6e2ebm7hhps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

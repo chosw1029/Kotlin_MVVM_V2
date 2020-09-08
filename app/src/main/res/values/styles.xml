@@ -1,0 +1,26 @@
+<resources>
+
+    <!-- Widget styles -->
+    <style name="Widget.NextUs" parent="@android:style/Widget.Material" />
+
+    <style name="Widget.NextUs.AppBar" parent="@style/Widget.Design.AppBarLayout">
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="android:elevation">8dp</item>
+    </style>
+
+    <!-- Navigation -->
+    <style name="Widget.NextUs.NavigationBarContentFrameLayout" parent="android:Widget.Material">
+        <item name="navigationBarBorderColor">?attr/ioschedNavigationBarDividerColor</item>
+        <item name="navigationBarBorderSize">1dp</item>
+    </style>
+
+    <style name="Widget.NextUs.NavigationView" parent="@style/Widget.MaterialComponents.NavigationView">
+        <item name="itemBackground">@drawable/navigation_item_background</item>
+        <item name="itemHorizontalPadding">@dimen/nav_item_horizontal_padding</item>
+    </style>
+
+    <style name="Widget.NextUs.HashtagIoDecoration">
+        <item name="android:drawable">@drawable/hashtag_io19</item>
+        <item name="margin">@dimen/nav_item_horizontal_padding</item>
+    </style>
+</resources>
