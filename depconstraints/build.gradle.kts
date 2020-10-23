@@ -19,27 +19,24 @@ plugins {
     id("maven-publish")
 }
 
-val appcompat = "1.1.0"
-val activity = "1.0.0"
+val appcompat = "1.2.0"
+val activity = "1.1.0"
 val cardview = "1.0.0"
 val archTesting = "2.0.0"
 val arcore = "1.7.0"
 val benchmark = "1.0.0"
 val browser = "1.0.0"
-val constraintLayout = "1.1.3"
-val core = "1.2.0"
-val coroutines = "1.3.4"
-val coroutinesTest = "1.3.4"
-val crashlytics = "2.9.8"
-val drawerLayout = "1.1.0-rc01"
+val constraintLayout = "2.0.0"
+val core = "1.3.2"
+val coroutines = "1.3.9"
+val coroutinesTest = "1.3.9"
+val crashlytics = "2.10.1"
+val drawerLayout = "1.1.1"
 val espresso = "3.1.1"
-val firebaseAnalytics = "17.4.0"
-val firebaseAuth = "19.3.1"
-val firebaseConfig = "19.1.4"
-val firebaseFirestore = "21.4.3"
-val firebaseFunctions = "19.0.2"
-val firebaseMessaging = "20.1.6"
-val firebaseUi = "4.0.0"
+val firebaseAnalytics = "17.6.0"
+val firebaseAuth = "19.4.0"
+val firebaseConfig = "19.2.0"
+val firebaseMessaging = "20.3.0"
 val flexbox = "1.1.0"
 val fragment = "1.2.4"
 val glide = "4.9.0"
@@ -125,10 +122,10 @@ dependencies {
         api("${Libs.FIREBASE_AUTH}:$firebaseAuth")
         api("${Libs.FIREBASE_CONFIG}:$firebaseConfig")
         api("${Libs.FIREBASE_ANALYTICS}:$firebaseAnalytics")
-        api("${Libs.FIREBASE_FIRESTORE}:$firebaseFirestore")
-        api("${Libs.FIREBASE_FUNCTIONS}:$firebaseFunctions")
+        //api("${Libs.FIREBASE_FIRESTORE}:$firebaseFirestore")
+        //api("${Libs.FIREBASE_FUNCTIONS}:$firebaseFunctions")
         api("${Libs.FIREBASE_MESSAGING}:$firebaseMessaging")
-        api("${Libs.FIREBASE_UI_AUTH}:$firebaseUi")
+        //api("${Libs.FIREBASE_UI_AUTH}:$firebaseUi")
 
         /*api("${Libs.ACTIVITY_KTX}:$activity")
 

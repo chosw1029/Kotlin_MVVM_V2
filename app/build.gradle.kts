@@ -7,7 +7,6 @@ plugins {
     kotlin("android.extensions")
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
-    id("io.fabric")
     id("dagger.hilt.android.plugin")
 }
 
@@ -21,7 +20,7 @@ android {
         versionName = Versions.versionName
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders = mapOf("crashlyticsEnabled" to true)
+        manifestPlaceholders["firebase_crashlytics_collection_enabled"] = mutableMapOf("crashlyticsEnabled" to true)
 
         vectorDrawables.useSupportLibrary = true
 
@@ -34,12 +33,12 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
-            manifestPlaceholders = mapOf("crashlyticsEnabled" to true)
+            manifestPlaceholders["crashlyticsEnabled"] = mutableMapOf("crashlyticsEnabled" to true)
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
         getByName("debug") {
             versionNameSuffix = "-debug"
-            manifestPlaceholders = mapOf("crashlyticsEnabled" to false)
+            manifestPlaceholders["crashlyticsEnabled"] = mutableMapOf("crashlyticsEnabled" to false)
         }
     }
 
@@ -123,7 +122,7 @@ dependencies {
     kapt(Libs.GLIDE_COMPILER)
 
     // Fabric and Firebase
-    implementation(Libs.FIREBASE_UI_AUTH)
+    //implementation(Libs.FIREBASE_UI_AUTH)
     implementation(Libs.CRASHLYTICS)
 
     // Kotlin

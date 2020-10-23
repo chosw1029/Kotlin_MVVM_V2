@@ -12,7 +12,7 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.NAVIGATION}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
-        classpath("io.fabric.tools:gradle:${Versions.FABRIC}")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:${Versions.CRASHLYTICS}")
         classpath("com.google.gms:google-services:${Versions.GOOGLE_SERVICES}")
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

@@ -106,8 +106,8 @@ dependencies {
     api(Libs.FIREBASE_AUTH)
     api(Libs.FIREBASE_CONFIG)
     api(Libs.FIREBASE_ANALYTICS)
-    api(Libs.FIREBASE_FIRESTORE)
-    api(Libs.FIREBASE_FUNCTIONS)
+    /*api(Libs.FIREBASE_FIRESTORE)
+    api(Libs.FIREBASE_FUNCTIONS)*/
     api(Libs.FIREBASE_MESSAGING)
 
     // Has to be replaced to avoid compile / runtime conflicts between okhttp and firestore
