@@ -49,6 +49,7 @@ object Libs {
     const val GSON = "com.google.code.gson:gson"
     const val HAMCREST = "org.hamcrest:hamcrest-library"
     const val HILT_ANDROID = "com.google.dagger:hilt-android"
+    const val HILT_ANDROIDX_WORK = "androidx.hilt:hilt-work"
     const val HILT_VIEWMODEL = "androidx.hilt:hilt-lifecycle-viewmodel"
     const val HILT_COMPILER = "com.google.dagger:hilt-android-compiler"
     const val HILT_TESTING = "com.google.dagger:hilt-android-testing"
@@ -79,4 +80,7 @@ object Libs {
     const val THREETENBP = "org.threeten:threetenbp"
     const val TIMBER = "com.jakewharton.timber:timber"
     const val VIEWPAGER2 = "androidx.viewpager2:viewpager2"
+    const val WORK_RUNTIME = "androidx.work:work-runtime-ktx"
+    const val WORK_GCM = "androidx.work:work-gcm"
+    const val WORK_RXJAVA = "androidx.work:work-rxjava2"
 }

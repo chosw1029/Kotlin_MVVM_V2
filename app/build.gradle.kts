@@ -1,5 +1,18 @@
-
-import org.jetbrains.kotlin.config.KotlinCompilerVersion
+/*
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 plugins {
     id("com.android.application")
@@ -117,12 +130,8 @@ dependencies {
     kaptAndroidTest(Libs.HILT_COMPILER)
     kaptAndroidTest(Libs.ANDROIDX_HILT_COMPILER)
 
-    // Glide
-    implementation(Libs.GLIDE)
-    kapt(Libs.GLIDE_COMPILER)
-
     // Fabric and Firebase
-    //implementation(Libs.FIREBASE_UI_AUTH)
+    implementation(Libs.FIREBASE_UI_AUTH)
     implementation(Libs.CRASHLYTICS)
 
     // Kotlin
@@ -146,38 +155,14 @@ dependencies {
 
     implementation(Libs.ARCORE)
 
-/*
-
-    //implementation(project(":shared"))
-    //implementation(project(":ar"))
-    //testImplementation(project(":test-shared"))
-    //testImplementation(project(":androidTest-shared"))
-
-
-
-
-
+    /*
     implementation(Libs.BROWSER)
-
     implementation(Libs.FLEXBOX)
-
-
-
-
-
-
-    // Fabric and Firebase
-    implementation(Libs.FIREBASE_UI_AUTH)
-    implementation(Libs.CRASHLYTICS)
 
     // Date and time API for Java.
     implementation(Libs.THREETENABP)
     testImplementation(Libs.THREETENBP)
-
-
    */
 }
 
 apply(plugin = "com.google.gms.google-services")
-/*
-*/

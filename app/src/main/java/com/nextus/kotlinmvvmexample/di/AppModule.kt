@@ -27,6 +27,7 @@ import com.nextus.kotlinmvvmexample.shared.di.ApplicationScope
 import com.nextus.kotlinmvvmexample.shared.di.DefaultDispatcher
 import com.nextus.kotlinmvvmexample.shared.network.RemoteClient
 import com.nextus.kotlinmvvmexample.shared.network.api.WeatherApi
+import com.nextus.kotlinmvvmexample.ui.signin.SignInViewModelDelegate
 import com.nextus.kotlinmvvmexample.util.FirebaseAnalyticsHelper
 import dagger.Module
 import dagger.Provides
@@ -79,7 +80,8 @@ class AppModule {
     fun provideAnalyticsHelper(
         @ApplicationScope applicationScope: CoroutineScope,
         @ApplicationContext context: Context,
-    ): AnalyticsHelper = FirebaseAnalyticsHelper(applicationScope, context)
+        signInDelegate: SignInViewModelDelegate
+    ): AnalyticsHelper = FirebaseAnalyticsHelper(applicationScope, context, signInDelegate)
 
     @Singleton
     @Provides

@@ -26,6 +26,7 @@ import com.google.firebase.ktx.Firebase
 import com.nextus.kotlinmvvmexample.shared.analytics.AnalyticsActions
 import com.nextus.kotlinmvvmexample.shared.analytics.AnalyticsHelper
 import com.nextus.kotlinmvvmexample.shared.di.ApplicationScope
+import com.nextus.kotlinmvvmexample.ui.signin.SignInViewModelDelegate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -36,6 +37,7 @@ import timber.log.Timber
 class FirebaseAnalyticsHelper(
     @ApplicationScope private val externalScope: CoroutineScope,
     context: Context,
+    signInViewModelDelegate: SignInViewModelDelegate
 ) : AnalyticsHelper {
 
     private var firebaseAnalytics = Firebase.analytics
@@ -67,15 +69,10 @@ class FirebaseAnalyticsHelper(
         // Analytics based on the "anonymous data collection" setting.
         setupPreferenceChangeListener(context)
 
-        /*signInViewModelDelegate.observeSignedInUser().observeForever { signedIn ->
+        signInViewModelDelegate.observeSignedInUser().observeForever { signedIn ->
             setUserSignedIn(signedIn == true)
             Timber.d("Updated user signed in to $signedIn")
         }
-
-        signInViewModelDelegate.observeRegisteredUser().observeForever { registered ->
-            setUserRegistered(registered == true)
-            Timber.d("Updated user registered to $registered")
-        }*/
     }
 
     override fun sendScreenView(screenName: String, activity: Activity) {

@@ -74,6 +74,10 @@ dependencies {
     // AppCompat
     implementation(Libs.APPCOMPAT)
 
+    // Glide
+    implementation(Libs.GLIDE)
+    kapt(Libs.GLIDE_COMPILER)
+
     // Architecture Components
     implementation(Libs.LIFECYCLE_LIVE_DATA_KTX)
     implementation(Libs.LIFECYCLE_VIEW_MODEL_KTX)
@@ -98,8 +102,14 @@ dependencies {
     api(Libs.COROUTINES)
     testImplementation(Libs.COROUTINES_TEST)
 
+    // Androidx Work
+    api(Libs.WORK_RUNTIME)
+    api(Libs.WORK_GCM)
+    api(Libs.WORK_RXJAVA)
+
     // Dagger Hilt
     implementation(Libs.HILT_ANDROID)
+    api(Libs.HILT_ANDROIDX_WORK)
     kapt(Libs.HILT_COMPILER)
 
     // Firebase

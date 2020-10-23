@@ -1,6 +1,6 @@
 include(
     ":app",
-    ":depconstraints",
+    ":shared",
     ":model",
-    ":shared"
+    "depconstraints"
 )

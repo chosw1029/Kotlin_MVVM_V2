@@ -2,6 +2,7 @@ package com.nextus.kotlinmvvmexample
 
 import android.app.Application
 import android.os.StrictMode
+import androidx.hilt.work.HiltWorkerFactory
 import com.nextus.kotlinmvvmexample.shared.analytics.AnalyticsHelper
 import com.nextus.kotlinmvvmexample.util.CrashlyticsTree
 import dagger.hilt.android.HiltAndroidApp
@@ -13,6 +14,7 @@ class MainApplication : Application() {
 
     // Even if the var isn't used, needs to be initialized at application startup.
     @Inject lateinit var analyticsHelper: AnalyticsHelper
+    @Inject lateinit var workerFactory: HiltWorkerFactory
 
     override fun onCreate() {
         // Enable strict mode before Dagger creates graph

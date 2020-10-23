@@ -37,6 +37,7 @@ val firebaseAnalytics = "17.6.0"
 val firebaseAuth = "19.4.0"
 val firebaseConfig = "19.2.0"
 val firebaseMessaging = "20.3.0"
+val firebaseUi = "6.2.0"
 val flexbox = "1.1.0"
 val fragment = "1.2.4"
 val glide = "4.9.0"
@@ -65,6 +66,7 @@ val runner = "1.2.0"
 val threetenabp = "1.0.5"
 val timber = "4.7.1"
 val viewpager2 = "1.0.0"
+val work = "2.4.0"
 
 dependencies {
     constraints {
@@ -89,6 +91,7 @@ dependencies {
         api("${Libs.GSON}:$gson")
         api("${Libs.HAMCREST}:$hamcrest")
         api("${Libs.HILT_ANDROID}:$hilt")
+        api("${Libs.HILT_ANDROIDX_WORK}:$hiltJetPack")
         api("${Libs.HILT_COMPILER}:$hilt")
         api("${Libs.HILT_TESTING}:$hilt")
         api("${Libs.HILT_VIEWMODEL}:$hiltJetPack")
@@ -119,13 +122,17 @@ dependencies {
         api("${Libs.TIMBER}:$timber")
         api("${Libs.VIEWPAGER2}:$viewpager2")
 
+        api("${Libs.WORK_RUNTIME}:$work")
+        api("${Libs.WORK_GCM}:$work")
+        api("${Libs.WORK_RXJAVA}:$work")
+
         api("${Libs.FIREBASE_AUTH}:$firebaseAuth")
         api("${Libs.FIREBASE_CONFIG}:$firebaseConfig")
         api("${Libs.FIREBASE_ANALYTICS}:$firebaseAnalytics")
         //api("${Libs.FIREBASE_FIRESTORE}:$firebaseFirestore")
         //api("${Libs.FIREBASE_FUNCTIONS}:$firebaseFunctions")
         api("${Libs.FIREBASE_MESSAGING}:$firebaseMessaging")
-        //api("${Libs.FIREBASE_UI_AUTH}:$firebaseUi")
+        api("${Libs.FIREBASE_UI_AUTH}:$firebaseUi")
 
         /*api("${Libs.ACTIVITY_KTX}:$activity")
 
