@@ -21,16 +21,16 @@ interface UserDataSource {
     fun getUser(uuid: String): Flow<Result<List<OnhealUser>>>
 
     fun getFirebaseToken(token: String, isKakao: String): Flow<Result<JsonObject>>*/
-    fun getUser(uuid: String): Flow<Result<List<AppUser>>>
+    fun getUser(uuid: String): Flow<Result<AppUser>>
 }
 
 class UserDataSourceImpl @Inject constructor(
     private val userApi: UserApi
 ): UserDataSource {
 
-    override fun getUser(uuid: String): Flow<Result<List<AppUser>>> {
+    override fun getUser(uuid: String): Flow<Result<AppUser>> {
         return flow {
-            val response = userApi.getUser(uuid).execute()
+            val response = userApi.getUser("bGhiktIEWnMJz1hsFvqvY1hjQCr2").execute()
 
             if(response.isSuccessful) {
                 response.body()?.let {

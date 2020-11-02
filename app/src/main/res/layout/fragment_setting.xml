@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.nextus.kotlinmvvmexample.ui.mypage.setting.SettingViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            style="@style/Widget.NextUs.AppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/color_background"
+                app:titleTextColor="@color/white"
+                app:title="@string/title_setting" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:paddingBottom="?android:actionBarSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:text="알림 설정"
+                    android:textAppearance="@style/TextAppearance.NextUs.Info"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    style="@style/Widget.NextUs.Mypage.Button"
+                    android:text="푸시 알림 설정"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:onClick="@{viewModel::onClickPushSetting}"
+                    android:drawablePadding="16dp" />
+
+                <View
+                    android:background="@color/color_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"/>
+
+                <TextView
+                    android:text="기타"
+                    android:textAppearance="@style/TextAppearance.NextUs.Info"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    style="@style/Widget.NextUs.Mypage.Button"
+                    android:text="앱 캐시 정리하기"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:drawablePadding="16dp" />
+
+                <TextView
+                    style="@style/Widget.NextUs.Mypage.Button"
+                    android:text="오픈소스 라이선스"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:drawablePadding="16dp" />
+
+                <TextView
+                    style="@style/Widget.NextUs.Mypage.Button"
+                    android:text="@{viewModel.appVersion}"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:drawablePadding="16dp"
+                    tools:text="버전 6.0.3"/>
+
+                <TextView
+                    style="@style/Widget.NextUs.Mypage.Button"
+                    android:text="로그아웃"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:drawablePadding="16dp"
+                    android:onClick="@{() -> viewModel.onClickLogout()}"/>
+
+                <TextView
+                    style="@style/Widget.NextUs.Mypage.Button"
+                    android:text="탈퇴하기"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="4dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:drawablePadding="16dp" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

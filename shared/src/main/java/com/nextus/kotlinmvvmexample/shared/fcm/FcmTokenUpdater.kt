@@ -22,6 +22,7 @@ import com.nextus.kotlinmvvmexample.shared.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -36,6 +37,7 @@ class FcmTokenUpdater @Inject constructor(
         FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
             val token = instanceIdResult.token
 
+            Timber.e("Firebase Token : $token")
             // All Firestore operations start from the main thread to avoid concurrency issues.
             externalScope.launch(mainDispatcher) {
                 /*firestore

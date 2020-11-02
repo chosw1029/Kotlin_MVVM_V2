@@ -25,6 +25,7 @@ import com.google.firebase.analytics.ktx.logEvent
 import com.google.firebase.ktx.Firebase
 import com.nextus.kotlinmvvmexample.shared.analytics.AnalyticsActions
 import com.nextus.kotlinmvvmexample.shared.analytics.AnalyticsHelper
+import com.nextus.kotlinmvvmexample.shared.data.prefs.SharedPreferenceStorage
 import com.nextus.kotlinmvvmexample.shared.di.ApplicationScope
 import com.nextus.kotlinmvvmexample.ui.signin.SignInViewModelDelegate
 import kotlinx.coroutines.CoroutineScope
@@ -109,7 +110,7 @@ class FirebaseAnalyticsHelper(
      * Set up a listener for preference changes.
      */
     private fun setupPreferenceChangeListener(context: Context) {
-        /*val listener = SharedPreferences.OnSharedPreferenceChangeListener { pref, key ->
+        val listener = SharedPreferences.OnSharedPreferenceChangeListener { pref, key ->
             val action = try {
                 getBooleanPreferenceAction(pref, key)
             } catch (e: ClassCastException) {
@@ -128,7 +129,7 @@ class FirebaseAnalyticsHelper(
             SharedPreferenceStorage(context).registerOnPreferenceChangeListener(listener)
         }
         prefListener = listener
-        Timber.d("Preference Change Listener has been set up.")*/
+        Timber.d("Preference Change Listener has been set up.")
     }
 
     private fun getBooleanPreferenceAction(prefs: SharedPreferences, key: String): String {

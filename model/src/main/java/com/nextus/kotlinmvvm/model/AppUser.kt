@@ -2,11 +2,11 @@ package com.nextus.kotlinmvvm.model
 
 import androidx.annotation.Keep
 
-@Keep
 data class AppUser(
-    val uuid: String,
+    val _id: String,
+    val uid: String,
     val nickname: String,
-    val address: String? = "",
-    val email: String? = "",
-    val profile_url: String? = ""
+    val imageUrl: String? = "",
+    val updatedAt: String,
+    val createdAt: String
 )

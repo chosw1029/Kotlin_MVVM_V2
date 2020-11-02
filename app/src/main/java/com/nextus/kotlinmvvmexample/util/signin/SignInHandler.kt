@@ -74,11 +74,11 @@ class FirebaseAuthSignInHandler(
             )
 
             result.postValue(
-                    googleSignInClient.signInIntent
-                /*AuthUI.getInstance()
+                    //googleSignInClient.signInIntent
+                AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setAvailableProviders(providers)
-                    .build()*/
+                    .build()
             )
         }
 

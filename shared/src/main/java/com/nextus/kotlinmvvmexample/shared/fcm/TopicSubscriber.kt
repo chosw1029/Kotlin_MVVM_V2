@@ -20,6 +20,12 @@ package com.nextus.kotlinmvvmexample.shared.fcm
  * Used to subscribe users to server topics.
  */
 interface TopicSubscriber {
+
+    // 게시글 댓글, 태그 알림
+    fun subscribeToCommentAndTag(uid: String)
+
+    fun unsubscribeFromCommentAndTag(uid: String)
+
     /**
      * Used to subscribe all users that open the schedule screen to a topic, to receive future
      * updates.

@@ -26,7 +26,7 @@ object Versions {
     const val ANDROID_GRADLE_PLUGIN = "4.1.0"
     const val BENCHMARK = "1.0.0"
     const val CRASHLYTICS = "2.3.0"
-    const val GOOGLE_SERVICES = "4.3.3"
+    const val GOOGLE_SERVICES = "4.3.4"
     const val KOTLIN = "1.4.10"
     const val NAVIGATION = "2.3.1"
     const val HILT = "2.29.1-alpha"

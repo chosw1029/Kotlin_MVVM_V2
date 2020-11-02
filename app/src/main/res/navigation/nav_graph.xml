@@ -1,14 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
-    app:startDestination="@id/navigation_home">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/navigation_main">
 
     <fragment
-        android:id="@id/navigation_home"
-        android:name="com.nextus.kotlinmvvmexample.ui.home.HomeFragment"
-        android:label="HomeFragment" />
+        android:id="@id/navigation_main"
+        android:name="com.nextus.kotlinmvvmexample.ui.main.MainFragment"
+        android:label="MainFragment" >
+
+        <action
+            android:id="@+id/toBoard"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/navigation_board" />
+
+        <action
+            android:id="@+id/toSetting"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/navigation_setting" />
+
+        <action
+            android:id="@+id/toEditProfile"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/navigation_edit_profile" />
+    </fragment>
+
     <fragment
-        android:id="@id/navigation_my_page"
-        android:name="com.nextus.kotlinmvvmexample.ui.mypage.MyPageFragment"
-        android:label="MyPageFragment" />
+        android:id="@id/navigation_board"
+        android:name="com.nextus.kotlinmvvmexample.ui.board.BoardFragment"
+        android:label="BoardFragment"
+        tools:layout="@layout/fragment_board">
+        <action
+            android:id="@+id/toBoardDetail"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/navigation_board_detail" />
+    </fragment>
+    <fragment
+        android:id="@id/navigation_board_detail"
+        android:name="com.nextus.kotlinmvvmexample.ui.board.detail.BoardDetailFragment"
+        android:label="BoardDetailFragment"
+        tools:layout="@layout/fragment_board_detail"/>
+
+    <fragment
+        android:id="@id/navigation_setting"
+        android:name="com.nextus.kotlinmvvmexample.ui.mypage.setting.SettingFragment"
+        android:label="@string/title_setting"
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/toPushSetting"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/navigation_push_setting" />
+    </fragment>
+
+    <fragment
+        android:id="@id/navigation_edit_profile"
+        android:name="com.nextus.kotlinmvvmexample.ui.mypage.edit.EditProfileFragment"
+        android:label="@string/title_edit_profile"
+        tools:layout="@layout/fragment_edit_profile"/>
+
+    <fragment
+        android:id="@id/navigation_push_setting"
+        android:name="com.nextus.kotlinmvvmexample.ui.mypage.setting.push.PushSettingFragment"
+        android:label="@string/title_push_setting"
+        tools:layout="@layout/fragment_push_setting"/>
+
 </navigation>

@@ -1,5 +1,6 @@
 package com.nextus.kotlinmvvmexample.shared.network
 
+import com.nextus.kotlinmvvmexample.shared.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -8,14 +9,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RemoteClient {
 
-    private const val baseUrl = "https://www.metaweather.com/"
+    private const val baseUrl = "ServerUrl"
 
-    fun createRetrofit(debug: Boolean): Retrofit {
+    fun createRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(
                 provideOkHttpClient(
-                    provideLoggingInterceptor(debug)
+                    provideLoggingInterceptor()
                 )
             )
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
@@ -34,9 +35,9 @@ object RemoteClient {
     }
 
     // 네트워크 요청/응답을 로그에 표시하는 Interceptor 객체를 생성합니다.
-    private fun provideLoggingInterceptor(debug: Boolean): HttpLoggingInterceptor {
+    private fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         val logging = HttpLoggingInterceptor()
-        logging.level = if (debug)
+        logging.level = if (BuildConfig.DEBUG)
             HttpLoggingInterceptor.Level.BODY
         else
             HttpLoggingInterceptor.Level.NONE

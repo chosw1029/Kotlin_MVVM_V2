@@ -1,0 +1,49 @@
+<resources>
+    <!-- Fragment Title -->
+    <string name="title_push_setting">푸쉬 알림 설정</string>
+
+    <!-- Exit -->
+    <!-- Press back again to leave the app. -->
+    <string name="close_app">\'뒤로가기\'버튼을 한 번 더 누르시면 종료됩니다.</string>
+
+    <!-- SignIn -->
+    <string name="request_sign_in">로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?</string>
+
+    <!-- Permission -->
+    <string name="request_permission">앱을 이용하기 위해서는 카메라와 외부 저장소 접근 권한이 필요합니다.</string>
+    <string name="permission_denied">권한이 거부되었습니다. 권한을 허용해주세요.</string>
+    <string name="permission_denied_permanent">권한이 거부되었습니다. 설정(앱 정보)에서 권한을 허용해주세요.</string>
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+
+    <!-- Sign in / Sign out -->
+    <string name="welcome" translation_description="Text shown instead of the user's name when the user is not signed in.">Welcome!</string>
+    <string name="a11y_signed_in_content_description" translation_description="Description of the account header when the user is signed in.">Signed in as %s.</string>
+    <string name="a11y_signed_out_content_description" translation_description="Description of the account header when the user is not signed in.">Tap to sign in.</string>
+
+    <string name="dialog_sign_in_content" translation_description="The content of the dialog. When the user needs to sign in.">Sign in to save events, reserve seats and rate sessions (if an attendee). Actions will be synced from your account across app and site.</string>
+    <string name="sign_in" translation_description="The description of a button to sign in.">Sign in</string>
+    <string name="firebase_auth_no_network_connection" translation_description="Snackbar message when there is no network connectivity.">No internet connection</string>
+    <string name="firebase_auth_unknown_error" translation_description="Snackbar message when Firebase Auth has an unknown error.">Unknown error</string>
+
+    <string name="dialog_sign_out_content" translation_description="The content of the dialog. Used to confirm that the user wants to sign out.">All saved events, seat reservations and session ratings (if an attendee) remain synced to your account.</string>
+    <string name="sign_out" translation_description="The description of a button to sign out.">Sign out</string>
+
+    <string name="manage_google_account" translation_description="Text for a button allowing the user to manage their Google account.">Manage your Google account</string>
+    <string name="manage_google_account_url" translatable="false">https://myaccount.google.com/</string>
+
+    <!--Info pages - Strings ready to translate-->
+    <string name="settings_time_zone_label" translate_description="Set time zone in app to PST.">Events in Pacific Time Zone (UTC-8)</string>
+    <string name="settings_enable_notifications" translate_description="Turn on notifications.">Enable notifications</string>
+    <string name="settings_send_anonymous_usage_statistics" translation_description="Enable sending usage statistics.">Send anonymous usage statistics</string>
+    <string name="settings_tos" translation_description="Open link to terms of service.">Terms of service</string>
+    <string name="settings_privacy_policy" translation_description="Open link to privacy policy.">Privacy policy</string>
+    <string name="settings_oss_licenses" translation_description="Open link to open source licenses.">Open sources licenses</string>
+    <string name="settings_theme_title" translation_description="Choose the app theme">Choose theme</string>
+    <string name="settings_theme_system" translation_description="Theme option to use the system default">System default</string>
+    <string name="settings_theme_light" translation_description="Theme option to use the light theme">Light</string>
+    <string name="settings_theme_dark" translation_description="Theme option to use the dark theme">Dark</string>
+    <string name="settings_theme_battery" translation_description="Theme option to use which is set by the device Battery Saver feature being enabled">Set by Battery Saver</string>
+
+    <string name="default_notification_channel_id" translation_description="Title of notification channel for asking user to rate a session. [CHAR_LIMIT=50]">Notification</string>
+</resources>

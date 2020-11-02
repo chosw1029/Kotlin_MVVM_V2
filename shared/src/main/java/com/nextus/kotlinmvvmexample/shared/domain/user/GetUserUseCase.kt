@@ -13,9 +13,9 @@ import javax.inject.Inject
 open class GetUserUseCase @Inject constructor(
     private val userRepository: UserRepository,
     @IoDispatcher dispatcher: CoroutineDispatcher
-): FlowUseCase<String, List<AppUser>>(dispatcher) {
+): FlowUseCase<String, AppUser>(dispatcher) {
 
-    override fun execute(parameters: String): Flow<Result<List<AppUser>>> {
+    override fun execute(parameters: String): Flow<Result<AppUser>> {
         return userRepository.getUser(parameters).map { result ->
             when(result) {
                 is Result.Success -> Result.Success(result.data)

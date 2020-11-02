@@ -89,6 +89,8 @@ interface SignInViewModelDelegate {
      * Returns the current user ID or null if not available.
      */
     fun getUserId(): String?
+
+    fun getNickname(): String?
 }
 
 /**
@@ -120,7 +122,7 @@ internal class FirebaseSignInViewModelDelegate @Inject constructor(
     }
 
     override val currentUserImageUri: LiveData<String?> = currentAppUserInfo.map {
-        it?.profile_url
+        it?.imageUrl
     }
 
     private val isSignedIn: LiveData<Boolean> = currentUserInfo.map {
@@ -155,5 +157,9 @@ internal class FirebaseSignInViewModelDelegate @Inject constructor(
 
     override fun getUserId(): String? {
         return currentUserInfo.value?.getUid()
+    }
+
+    override fun getNickname(): String? {
+        return currentAppUserInfo.value?.nickname
     }
 }

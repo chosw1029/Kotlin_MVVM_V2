@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_push_setting">qwe</string>
+    <string name="close_app">qwe</string>
+    <string name="request_sign_in">qwe</string>
+    <string name="request_permission">qwe</string>
+    <string name="permission_denied">qwe</string>
+    <string name="permission_denied_permanent">qwe</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="welcome">Welcome!</string>
+    <string name="a11y_signed_in_content_description">Signed in as %s.</string>
+    <string name="a11y_signed_out_content_description">Tap to sign in.</string>
+    <string name="dialog_sign_in_content">Sign in to save events, reserve seats and rate sessions (if an attendee). Actions will be synced from your account across app and site.</string>
+    <string name="sign_in">Sign in</string>
+    <string name="firebase_auth_no_network_connection">No internet connection</string>
+    <string name="firebase_auth_unknown_error">Unknown error</string>
+    <string name="dialog_sign_out_content">All saved events, seat reservations and session ratings (if an attendee) remain synced to your account.</string>
+    <string name="sign_out">Sign out</string>
+    <string name="manage_google_account">Manage your Google account</string>
+    <string name="settings_time_zone_label">Events in Pacific Time Zone (UTC-8)</string>
+    <string name="settings_enable_notifications">Enable notifications</string>
+    <string name="settings_send_anonymous_usage_statistics">Send anonymous usage statistics</string>
+    <string name="settings_tos">Terms of service</string>
+    <string name="settings_privacy_policy">Privacy policy</string>
+    <string name="settings_oss_licenses">Open sources licenses</string>
+    <string name="settings_theme_title">Choose theme</string>
+    <string name="settings_theme_system">System default</string>
+    <string name="settings_theme_light">Light</string>
+    <string name="settings_theme_dark">Dark</string>
+    <string name="settings_theme_battery">Set by Battery Saver</string>
+    <string name="default_notification_channel_id">Notification</string>
+</resources>

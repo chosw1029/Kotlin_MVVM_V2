@@ -17,17 +17,17 @@ class UserModule {
 
     @Singleton
     @Provides
-    fun provideUserApi(): UserApi = RemoteClient.createRetrofit(true).create(UserApi::class.java)
+    fun provideUserApi(): UserApi = RemoteClient.createRetrofit().create(UserApi::class.java)
 
     @Singleton
     @Provides
     fun provideUserRepository(userApi: UserApi): UserDataSource = UserDataSourceImpl(userApi)
 
-    @Singleton
+   /* @Singleton
     @Provides
     fun provideGetUserUseCase(
             userRepository: UserRepository,
             @IoDispatcher ioDispatcher: CoroutineDispatcher
-    ): GetUserUseCase = GetUserUseCase(userRepository, ioDispatcher)
+    ): GetUserUseCase = GetUserUseCase(userRepository, ioDispatcher)*/
 
 }

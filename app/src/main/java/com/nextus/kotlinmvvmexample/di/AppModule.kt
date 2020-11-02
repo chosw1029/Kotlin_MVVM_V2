@@ -18,11 +18,15 @@ package com.nextus.kotlinmvvmexample.di
 
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.nextus.kotlinmvvmexample.shared.analytics.AnalyticsHelper
+import com.nextus.kotlinmvvmexample.shared.data.prefs.PreferenceStorage
+import com.nextus.kotlinmvvmexample.shared.data.prefs.SharedPreferenceStorage
 import com.nextus.kotlinmvvmexample.shared.di.ApplicationScope
 import com.nextus.kotlinmvvmexample.shared.di.DefaultDispatcher
 import com.nextus.kotlinmvvmexample.shared.network.RemoteClient
@@ -49,10 +53,14 @@ import javax.inject.Singleton
 @Module
 class AppModule {
 
-    /*@Singleton
+    @Singleton
     @Provides
     fun providePreferenceStorage(@ApplicationContext context: Context): PreferenceStorage =
-        SharedPreferenceStorage(context)*/
+        SharedPreferenceStorage(context)
+
+    @Provides
+    fun providePackageInfo(@ApplicationContext context: Context): PackageInfo =
+            context.packageManager.getPackageInfo(context.packageName, 0)
 
     @Provides
     fun provideWifiManager(@ApplicationContext context: Context): WifiManager =

@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "923481514429-7salhblfd59vfhvl3me05m5ok99oj1qp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nextus.kotlinmvvmexample",
+            "certificate_hash": "49da7296073bcc6b6d91b833851fe135167d1853"
+          }
+        },
+        {
           "client_id": "923481514429-n25g2uv1nl6ikkthhcdjp6e2ebm7hhps.apps.googleusercontent.com",
           "client_type": 3
         }

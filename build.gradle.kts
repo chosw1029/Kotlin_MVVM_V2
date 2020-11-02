@@ -28,7 +28,7 @@ allprojects {
         google()
         mavenCentral()
         jcenter()
-
+        maven { url = uri("https://jitpack.io") }
         // For Android Build Server
         // - Material Design Components
         /*maven { url = uri("${project.rootDir}/../iosched-prebuilts/repository") }

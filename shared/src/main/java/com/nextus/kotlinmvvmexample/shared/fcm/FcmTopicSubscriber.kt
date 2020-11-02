@@ -26,6 +26,22 @@ import timber.log.Timber
  */
 class FcmTopicSubscriber : TopicSubscriber {
 
+    override fun subscribeToCommentAndTag(uid: String) {
+        try {
+            FirebaseMessaging.getInstance().subscribeToTopic(uid + "_" + NEW_COMMENT_AND_TAG_TOPIC_KEY)
+        } catch (e: Exception) {
+            Timber.e(e, "Error subscribing to new comment and tag topic")
+        }
+    }
+
+    override fun unsubscribeFromCommentAndTag(uid: String) {
+        try {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(uid + "_" + NEW_COMMENT_AND_TAG_TOPIC_KEY)
+        } catch (e: Exception) {
+            Timber.e(e, "Error unsubscribing from new comment and tag topic")
+        }
+    }
+
     override fun subscribeToScheduleUpdates() {
         try {
             FirebaseMessaging.getInstance().subscribeToTopic(CONFERENCE_DATA_UPDATE_TOPIC_KEY)
@@ -55,5 +71,7 @@ class FcmTopicSubscriber : TopicSubscriber {
     companion object {
         private const val CONFERENCE_DATA_UPDATE_TOPIC_KEY = "CONFERENCE_DATA_SYNC_2018"
         private const val REGISTERED_USER_TOPIC_KEY = "REGISTERED_2018"
+
+        private const val NEW_COMMENT_AND_TAG_TOPIC_KEY = "NEW_COMMENT_AND_TAG"
     }
 }

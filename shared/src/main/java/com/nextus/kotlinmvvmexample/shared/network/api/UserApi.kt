@@ -24,8 +24,8 @@ interface UserApi {
     ): Call<AppUser>
 
     @FormUrlEncoded
-    @POST("/user/getUser")
-    fun getUser(@Field("uuid") uuid: String): Call<List<AppUser>>
+    @POST("/user/findUserById")
+    fun getUser(@Field("uid") uuid: String): Call<AppUser>
 
     @FormUrlEncoded
     @POST("/user/verifyToken")

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
@@ -28,12 +29,50 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
+            android:id="@+id/test"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/color_primary"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbar" />
+            app:layout_constraintTop_toBottomOf="@+id/appbar">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_snackbar"
+                android:text="SnackBar Test"
+                android:layout_margin="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@color/color_accent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_board"
+                android:text="Board Test"
+                android:layout_margin="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:backgroundTint="@color/color_accent"/>
+
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtube_player_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:videoId="jNC6MEA4rQk"
+                app:autoPlay="false"
+                app:showFullScreenButton="false" />
+
+        </LinearLayout>
+
+        <!--<com.nextus.kotlinmvvmexample.widget.FadingSnackbar
+            android:id="@+id/snackbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

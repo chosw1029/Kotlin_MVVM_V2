@@ -17,6 +17,7 @@
 package com.nextus.kotlinmvvmexample.util
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.content.Context
 import android.content.res.Resources
 import android.content.res.TypedArray
@@ -46,6 +47,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
+import com.google.android.material.snackbar.Snackbar
 
 fun ObservableBoolean.hasSameValue(other: ObservableBoolean) = get() == other.get()
 
@@ -102,6 +104,20 @@ fun lerp(a: Float, b: Float, t: Float): Float {
  */
 fun Resources.getFloatUsingCompat(@DimenRes resId: Int): Float {
     return ResourcesCompat.getFloat(this, resId)
+}
+
+fun Context.isAppInForeground(): Boolean {
+    val application = this.applicationContext
+    val activityManager = this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+    val runningProcessList = activityManager.runningAppProcesses
+
+    if (runningProcessList != null) {
+        val myApp = runningProcessList.find { it.processName == application.packageName }
+        ActivityManager.getMyMemoryState(myApp)
+        return myApp?.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
+    }
+
+    return false
 }
 
 /**
@@ -318,4 +334,36 @@ fun Context.getColorFromTheme(colorAttributeId: Int): Int {
     @ColorInt val color = typedArray.getColor(0, 0)
     typedArray.recycle()
     return color
+}
+
+
+fun View.showSnackbar(msgId: Int, length: Int) {
+    showSnackbar(context.getString(msgId), length)
+}
+
+fun View.showSnackbar(msg: String, length: Int) {
+    showSnackbar(msg, length, null, {})
+}
+
+fun View.showSnackbar(
+        msgId: Int,
+        length: Int,
+        actionMessageId: Int,
+        action: (View) -> Unit
+) {
+    showSnackbar(context.getString(msgId), length, context.getString(actionMessageId), action)
+}
+
+fun View.showSnackbar(
+        msg: String,
+        length: Int,
+        actionMessage: CharSequence?,
+        action: (View) -> Unit
+) {
+    val snackbar = Snackbar.make(this, msg, length)
+    if (actionMessage != null) {
+        snackbar.setAction(actionMessage) {
+            action(this)
+        }.show()
+    }
 }

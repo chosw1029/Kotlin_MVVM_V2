@@ -21,7 +21,9 @@ plugins {
 
 val appcompat = "1.2.0"
 val activity = "1.1.0"
+val admob = "19.5.0"
 val cardview = "1.0.0"
+val circleImageView = "3.1.0"
 val archTesting = "2.0.0"
 val arcore = "1.7.0"
 val benchmark = "1.0.0"
@@ -33,25 +35,30 @@ val coroutinesTest = "1.3.9"
 val crashlytics = "2.10.1"
 val drawerLayout = "1.1.1"
 val espresso = "3.1.1"
-val firebaseAnalytics = "17.6.0"
-val firebaseAuth = "19.4.0"
-val firebaseConfig = "19.2.0"
-val firebaseMessaging = "20.3.0"
+val firebaseAnalytics = "18.0.0"
+val firebaseCrashlytics = "17.2.2"
+val firebaseAuth = "20.0.0"
+val firebaseConfig = "20.0.0"
+val firebaseMessaging = "21.0.0"
+val firebaseInAppMessaging = "19.1.2"
 val firebaseUi = "6.2.0"
 val flexbox = "1.1.0"
 val fragment = "1.2.4"
-val glide = "4.9.0"
+val glide = "4.11.0"
 val googleMapUtils = "0.5"
 val googlePlayServicesMaps = "16.0.0"
 val googlePlayServicesVision = "17.0.2"
+val googleBasement = "17.5.0"
 val gson = "2.8.6"
 val hamcrest = "1.3"
 val hilt = Versions.HILT
 val hiltJetPack = "1.0.0-alpha01"
+val imagePicker = "1.7.5"
+val inlineActivityResult = "1.0.4"
 val junit = "4.13"
 val junitExt = "1.1.1"
 val lifecycle = "2.2.0"
-val lottie = "3.0.0"
+val lottie = "3.4.4"
 val material = "1.1.0"
 val mockito = "3.3.1"
 val mockitoKotlin = "1.5.0"
@@ -67,13 +74,16 @@ val threetenabp = "1.0.5"
 val timber = "4.7.1"
 val viewpager2 = "1.0.0"
 val work = "2.4.0"
+val youtube = "10.0.5"
 
 dependencies {
     constraints {
         api("${Libs.ACTIVITY_KTX}:$activity")
+        api("${Libs.ADMOB}:$admob")
         api("${Libs.ANDROIDX_HILT_COMPILER}:$hiltJetPack")
         api("${Libs.APPCOMPAT}:$appcompat")
         api("${Libs.CARDVIEW}:$cardview")
+        api("${Libs.CIRCLE_IMAGE_VIEW}:$circleImageView")
         api("${Libs.ARCH_TESTING}:$archTesting")
         api("${Libs.ARCORE}:$arcore")
         api("${Libs.BENCHMARK}:$benchmark")
@@ -88,6 +98,7 @@ dependencies {
         api("${Libs.FRAGMENT_KTX}:$fragment")
         api("${Libs.GLIDE}:$glide")
         api("${Libs.GLIDE_COMPILER}:$glide")
+        api("${Libs.GOOGLE_BASEMENT}:$googleBasement")
         api("${Libs.GSON}:$gson")
         api("${Libs.HAMCREST}:$hamcrest")
         api("${Libs.HILT_ANDROID}:$hilt")
@@ -95,6 +106,8 @@ dependencies {
         api("${Libs.HILT_COMPILER}:$hilt")
         api("${Libs.HILT_TESTING}:$hilt")
         api("${Libs.HILT_VIEWMODEL}:$hiltJetPack")
+        api("${Libs.IMAGE_PICKER}:$imagePicker")
+        api("${Libs.INLINE_ACTIVITY_RESULT}:$inlineActivityResult")
         api("${Libs.JUNIT}:$junit")
         api("${Libs.EXT_JUNIT}:$junitExt")
         api("${Libs.KOTLIN_STDLIB}:${Versions.KOTLIN}")
@@ -129,10 +142,15 @@ dependencies {
         api("${Libs.FIREBASE_AUTH}:$firebaseAuth")
         api("${Libs.FIREBASE_CONFIG}:$firebaseConfig")
         api("${Libs.FIREBASE_ANALYTICS}:$firebaseAnalytics")
+        api("${Libs.FIREBASE_CRASHLYTICS}:$firebaseCrashlytics")
         //api("${Libs.FIREBASE_FIRESTORE}:$firebaseFirestore")
         //api("${Libs.FIREBASE_FUNCTIONS}:$firebaseFunctions")
         api("${Libs.FIREBASE_MESSAGING}:$firebaseMessaging")
+        api("${Libs.FIREBASE_IN_APP_MESSAGING}:$firebaseInAppMessaging")
+        api("${Libs.FIREBASE_IN_APP_MESSAGING_DISPLAY}:$firebaseInAppMessaging")
         api("${Libs.FIREBASE_UI_AUTH}:$firebaseUi")
+
+        api("${Libs.YOUTUBE}:$youtube")
 
         /*api("${Libs.ACTIVITY_KTX}:$activity")
 

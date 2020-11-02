@@ -62,7 +62,6 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
         // is used instead of any other operator on authStateUserDataSource.getBasicUserInfo
         return channelFlow {
             authStateUserDataSource.getBasicUserInfo().collect { userResult ->
-                Timber.e("getBaiscUserInfo")
                 // Cancel observing previous user registered changes
                 observeUserRegisteredChangesJob.cancelIfActive()
 
@@ -79,18 +78,17 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
         }
     }
 
-   /* private fun subscribeToRegisteredTopic() {
-        topicSubscriber.subscribeToAttendeeUpdates()
+    private fun subscribeToCommentAndTagTopic(uid: String) {
+        topicSubscriber.subscribeToCommentAndTag(uid)
     }
 
-    private fun unsubscribeFromRegisteredTopic() {
-        topicSubscriber.unsubscribeFromAttendeeUpdates()
-    }*/
+    private fun unsubscribeFromCommentAndTagTopic(uid: String) {
+        topicSubscriber.unsubscribeFromCommentAndTag(uid)
+    }
 
     private suspend fun ProducerScope<Result<AuthenticatedUserInfo>>.processUserData(
         userData: AuthenticatedUserInfoBasic
     ) {
-        Timber.e("ProcessUserData")
         if (!userData.isSignedIn()) {
             userSignedOut(userData)
         } else if (userData.getUid() != null) {
@@ -114,10 +112,9 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
                     is Result.Success -> {
                         channel.offer(
                             Result.Success(FirebaseUserInfo(userData.getFirebaseUser()).apply {
-                                if(result.data.isNotEmpty())
-                                    setAppUser(result.data[0])
-                                else
-                                    setAppUser(null)
+                                setAppUser(result.data)
+                                //subscribeToCommentAndTagTopic(result.data.uid)
+                                subscribeToCommentAndTagTopic("bGhiktIEWnMJz1hsFvqvY1hjQCr2")
                             })
                         )
                     }
@@ -134,7 +131,10 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
     private fun ProducerScope<Result<AuthenticatedUserInfo>>.userSignedOut(
         userData: AuthenticatedUserInfoBasic?
     ) {
-        channel.offer(Result.Success(userData as FirebaseUserInfo))
-        //unsubscribeFromRegisteredTopic() // Stop receiving notifications for attendees
+        channel.offer(Result.Success(FirebaseUserInfo(userData?.getFirebaseUser()).apply {
+            setAppUser(null)
+        }))
+
+        unsubscribeFromCommentAndTagTopic(userData?.getUid() ?: "") // Stop receiving notifications
     }
 }

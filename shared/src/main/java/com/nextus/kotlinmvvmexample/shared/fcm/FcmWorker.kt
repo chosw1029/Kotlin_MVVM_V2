@@ -3,23 +3,20 @@ package com.nextus.kotlinmvvmexample.shared.fcm
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.Context
 import android.graphics.*
 import android.os.Build
-import android.os.Bundle
 import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
+import androidx.core.content.getSystemService
 import androidx.hilt.Assisted
 import androidx.hilt.work.WorkerInject
 import androidx.work.CoroutineWorker
-import androidx.work.ListenableWorker
 import androidx.work.WorkerParameters
-import com.bumptech.glide.Glide
-import com.google.gson.Gson
 import com.nextus.kotlinmvvmexample.shared.R
-import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import java.util.concurrent.TimeUnit
 
 class FcmWorker @WorkerInject constructor(
         @Assisted private val context: Context,
@@ -27,9 +24,9 @@ class FcmWorker @WorkerInject constructor(
 ): CoroutineWorker(context, parameters) {
 
     override suspend fun doWork() = coroutineScope {
-        val jobs = async {
+        /*val jobs = async {
             // example
-            /*
+            *//*
             getRelatedCardInfoUseCase(inputData.getString("bid")!!).collect { result ->
                         when(result) {
                             is com.nextus.kotlinmvvmexample.shared.result.Result.Success -> {
@@ -47,32 +44,37 @@ class FcmWorker @WorkerInject constructor(
                             else -> {}
                         }
                     }
-             */
+             *//*
+
         }
 
-        jobs.await()
+        jobs.await()*/
+        sendNotification(inputData.getString("title"))
         Result.success()
     }
 
-    private fun sendNotification(title: String, message: String, imageUrl: String, type: String, item: String) {
-        val largeIcon = Glide.with(context)
-            .asBitmap()
-            .load(imageUrl)
-            .submit()
+    //, message: String, imageUrl: String, type: String, item: String
+    private fun sendNotification(title: String?) {
+        val notificationManager: NotificationManager = context.getSystemService()
+                ?: throw Exception("Notification Manager not found.")
 
-        /**
-         * 오레오 버전부터는 Notification Channel이 없으면 푸시가 생성되지 않는 현상이 있습니다.
-         * **/
-        var notificationBuilder: NotificationCompat.Builder? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            makeNotificationChannel(context, notificationManager)
+        }
 
-        val channel = "10029"
-        val channelName = "default"
 
-        /*notificationBuilder = NotificationCompat.Builder(context, channel)
+        /*
+                val largeIcon = Glide.with(context)
+                .asBitmap()
+                .load(imageUrl)
+                .submit()
+
+        notificationBuilder = NotificationCompat.Builder(context, channel)
             .setSmallIcon(R.mipmap.ic_launcher_round)
             .setContentTitle(title)
-            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setContentText(message)
             .setAutoCancel(true)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_VIBRATE)
 
         try {
@@ -119,6 +121,38 @@ class FcmWorker @WorkerInject constructor(
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())*/
+
+        val notification = NotificationCompat.Builder(context, CHANNEL_ID)
+                .setContentTitle(title)
+                .setContentText(context.getString(R.string.settings_send_anonymous_usage_statistics))
+                .setSmallIcon(R.drawable.ic_hero)
+                .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.drawable.ic_hero))
+                .setTimeoutAfter(TimeUnit.MINUTES.toMillis(20)) // Backup (cancelled with receiver)
+                .setAutoCancel(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .build()
+
+        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun makeNotificationChannel(
+        context: Context,
+        notificationManager: NotificationManager
+    ) {
+        notificationManager.createNotificationChannel(
+            NotificationChannel(
+                    CHANNEL_ID,
+                    context.getString(R.string.default_notification_channel_id),
+                    NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+                enableLights(true)
+                enableVibration(true)
+                setShowBadge(true)
+                vibrationPattern = longArrayOf(100L, 200L, 100L, 200L)
+            }
+        )
     }
 
     private fun getCircularBitmap(@NonNull bitmap: Bitmap): Bitmap {
@@ -143,5 +177,9 @@ class FcmWorker @WorkerInject constructor(
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         canvas.drawBitmap(bitmap, rect, rect, paint)
         return output
+    }
+
+    companion object {
+        const val CHANNEL_ID = "channel_id"
     }
 }

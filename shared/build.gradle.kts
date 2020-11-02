@@ -116,9 +116,16 @@ dependencies {
     api(Libs.FIREBASE_AUTH)
     api(Libs.FIREBASE_CONFIG)
     api(Libs.FIREBASE_ANALYTICS)
+    api(Libs.FIREBASE_CRASHLYTICS)
+    api(Libs.FIREBASE_IN_APP_MESSAGING)
+    api(Libs.FIREBASE_IN_APP_MESSAGING_DISPLAY)
+    api(Libs.FIREBASE_CRASHLYTICS)
     /*api(Libs.FIREBASE_FIRESTORE)
     api(Libs.FIREBASE_FUNCTIONS)*/
     api(Libs.FIREBASE_MESSAGING)
+    api(Libs.ADMOB)
+
+    api(Libs.GOOGLE_BASEMENT)
 
     // Has to be replaced to avoid compile / runtime conflicts between okhttp and firestore
     api(Libs.OKIO)

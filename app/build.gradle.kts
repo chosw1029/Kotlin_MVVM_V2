@@ -21,6 +21,8 @@ plugins {
     kotlin("kapt")
     id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
+    id("kotlin-android")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -92,6 +94,9 @@ android {
 
 dependencies {
     api(platform(project(":depconstraints")))
+    implementation("androidx.appcompat:appcompat:1.2.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation("androidx.constraintlayout:constraintlayout:2.0.2")
     kapt(platform(project(":depconstraints")))
 
     implementation(project(":shared"))
@@ -130,6 +135,10 @@ dependencies {
     kaptAndroidTest(Libs.HILT_COMPILER)
     kaptAndroidTest(Libs.ANDROIDX_HILT_COMPILER)
 
+    // Glide
+    implementation(Libs.GLIDE)
+    kapt(Libs.GLIDE_COMPILER)
+
     // Fabric and Firebase
     implementation(Libs.FIREBASE_UI_AUTH)
     implementation(Libs.CRASHLYTICS)
@@ -153,7 +162,17 @@ dependencies {
     // Solve conflicts with gson. DataBinding is using an old version.
     implementation(Libs.GSON)
 
+    // EasyImage
+    implementation(Libs.IMAGE_PICKER)
+    implementation(Libs.INLINE_ACTIVITY_RESULT)
+
     implementation(Libs.ARCORE)
+
+    // Circle ImageView
+    implementation(Libs.CIRCLE_IMAGE_VIEW)
+
+    // Youtube Player
+    implementation(Libs.YOUTUBE)
 
     /*
     implementation(Libs.BROWSER)

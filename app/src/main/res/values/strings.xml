@@ -1,21 +1,8 @@
 <resources>
     <string name="app_name">KotlinMvvmExample</string>
-    <string name="title_home">Home</string>
-    <string name="title_my_page">MyPage</string>
-
-    <!-- Sign in / Sign out -->
-    <string name="welcome" translation_description="Text shown instead of the user's name when the user is not signed in.">Welcome!</string>
-    <string name="a11y_signed_in_content_description" translation_description="Description of the account header when the user is signed in.">Signed in as %s.</string>
-    <string name="a11y_signed_out_content_description" translation_description="Description of the account header when the user is not signed in.">Tap to sign in.</string>
-
-    <string name="dialog_sign_in_content" translation_description="The content of the dialog. When the user needs to sign in.">Sign in to save events, reserve seats and rate sessions (if an attendee). Actions will be synced from your account across app and site.</string>
-    <string name="sign_in" translation_description="The description of a button to sign in.">Sign in</string>
-    <string name="firebase_auth_no_network_connection" translation_description="Snackbar message when there is no network connectivity.">No internet connection</string>
-    <string name="firebase_auth_unknown_error" translation_description="Snackbar message when Firebase Auth has an unknown error.">Unknown error</string>
-
-    <string name="dialog_sign_out_content" translation_description="The content of the dialog. Used to confirm that the user wants to sign out.">All saved events, seat reservations and session ratings (if an attendee) remain synced to your account.</string>
-    <string name="sign_out" translation_description="The description of a button to sign out.">Sign out</string>
-
-    <string name="manage_google_account" translation_description="Text for a button allowing the user to manage their Google account.">Manage your Google account</string>
-    <string name="manage_google_account_url" translatable="false">https://myaccount.google.com/</string>
+    <string name="title_home">메인</string>
+    <string name="title_my_page">내 정보</string>
+    <string name="title_setting">설정</string>
+    <string name="title_push_setting">푸쉬 알림 설정</string>
+    <string name="title_edit_profile">프로필 설정</string>
 </resources>

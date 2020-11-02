@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import com.nextus.kotlinmvvmexample.BR
 import com.nextus.kotlinmvvmexample.R
+import com.nextus.kotlinmvvmexample.shared.analytics.AnalyticsHelper
+import javax.inject.Inject
 
 /**
  * To be implemented by components that host top-level navigation destinations.
@@ -20,7 +22,7 @@ import com.nextus.kotlinmvvmexample.R
 interface NavigationHost {
 
     /** Called by MainNavigationFragment to setup it's toolbar with the navigation controller. */
-    fun registerToolbarWithNavigation(toolbar: Toolbar)
+    fun registerToolbarWithNavigation(toolbar: Toolbar, title: String?)
 }
 
 /**
@@ -37,6 +39,9 @@ abstract class BaseFragment<B: ViewDataBinding>(
     @LayoutRes private val layoutResId: Int
 ) : Fragment(), NavigationDestination {
 
+    @Inject
+    lateinit var analyticsHelper: AnalyticsHelper
+
     private lateinit var mViewDataBinding: B
     protected var navigationHost: NavigationHost? = null
 
@@ -52,6 +57,11 @@ abstract class BaseFragment<B: ViewDataBinding>(
         navigationHost = null
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -59,14 +69,13 @@ abstract class BaseFragment<B: ViewDataBinding>(
     ): View? {
         mViewDataBinding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
         return mViewDataBinding.root
-        //return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val host = navigationHost ?: return
         val mainToolbar: Toolbar = view.findViewById(R.id.toolbar) ?: return
         mainToolbar.apply {
-            host.registerToolbarWithNavigation(this)
+            host.registerToolbarWithNavigation(this, title.toString())
         }
     }
 
@@ -76,22 +85,5 @@ abstract class BaseFragment<B: ViewDataBinding>(
         mViewDataBinding.executePendingBindings()
     }
 
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true) // Fragment Option Menu 사용
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mViewDataBinding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
-        return mViewDataBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        mViewDataBinding.setVariable(BR.viewModel, viewModel)
-        mViewDataBinding.lifecycleOwner = this
-        mViewDataBinding.executePendingBindings()
-
-        onCreate()
-    }*/
+    fun getBinding(): B = mViewDataBinding
 }

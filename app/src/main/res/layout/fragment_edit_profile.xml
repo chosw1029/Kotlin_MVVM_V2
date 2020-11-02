@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.nextus.kotlinmvvmexample.ui.mypage.edit.EditProfileViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_background">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            style="@style/Widget.NextUs.AppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/color_background"
+                app:titleTextColor="@color/white"
+                app:title="@string/title_my_page" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="48dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_hero"
+            android:onClick="@{() -> viewModel.onClickProfileImage()}"
+            app:profileUrl="@{viewModel.currentAppUserInfo.imageUrl}"
+            app:update="@{viewModel.currentAppUserInfo.updatedAt}"
+            app:clipToCircle="@{true}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nicknameInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:hint="닉네임"
+            android:textColorHint="@color/color_accent"
+            app:hintTextColor="@color/color_accent"
+            app:boxStrokeColor="@color/color_accent"
+            app:errorEnabled="true"
+            app:errorTextColor="#F43636"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/profileImage">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nicknameEditText"
+                android:textColor="@color/white"
+                android:text="@={viewModel.nickname}"
+                android:textCursorDrawable="@drawable/cursor"
+                android:maxLength="20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.2" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.8" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            android:background="#F8C396"
+            android:onClick="@{() -> viewModel.onClickRemoveImage()}"
+            app:goneUnless="@{viewModel.removeIconVisibility}"
+            app:clipToCircle="@{true}"
+            app:layout_constraintEnd_toEndOf="@+id/profileImage"
+            app:layout_constraintTop_toTopOf="@+id/profileImage"
+            app:srcCompat="@drawable/ic_close" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
