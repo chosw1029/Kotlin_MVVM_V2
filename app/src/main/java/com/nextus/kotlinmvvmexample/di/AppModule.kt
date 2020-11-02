@@ -19,7 +19,6 @@ package com.nextus.kotlinmvvmexample.di
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.wifi.WifiManager
 import com.google.gson.Gson
@@ -93,7 +92,7 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideWeatherApi(): WeatherApi = RemoteClient.createRetrofit(true).create(WeatherApi::class.java)
+    fun provideWeatherApi(): WeatherApi = RemoteClient.createRetrofit().create(WeatherApi::class.java)
 
 
    /* @Singleton
