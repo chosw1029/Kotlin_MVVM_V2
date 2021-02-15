@@ -64,23 +64,6 @@ fun clipToCircle(view: View, clip: Boolean) {
     view.outlineProvider = if (clip) CircularOutlineProvider else null
 }
 
-/*@BindingAdapter(value = [
-    "momentImageUrl",
-    "momentImageUrlDarkTheme",
-    "momentTheme"],
-    requireAll = false)
-fun momentImageUrl(
-    imageView: ImageView,
-    momentImageUrl: String?,
-    momentImageUrlDarkTheme: String?,
-    momentTheme: Resources.Theme?
-) {
-    when (momentTheme) {
-        DARK -> imageUri(imageView, momentImageUrlDarkTheme?.toUri(), null)
-        else -> imageUri(imageView, momentImageUrl?.toUri(), null)
-    }
-}*/
-
 @BindingAdapter("profileUrl", "update")
 fun setProfileImage(imageView: ImageView, url: String?, update: String?) {
     url?.let {

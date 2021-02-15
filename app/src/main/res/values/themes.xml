@@ -36,7 +36,6 @@
 
         <!-- Dialogs -->
         <item name="materialAlertDialogTheme">@style/AlertDialog.Theme</item>
-
     </style>
 
     <style name="ThemeOverlay.NextUs.Light" parent="ThemeOverlay.MaterialComponents.Light">

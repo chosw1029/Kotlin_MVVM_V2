@@ -13,10 +13,11 @@ class EditProfileViewModel @ViewModelInject constructor (
 
     val removeImageEvent = MutableLiveData<Event<Unit>>()
     val removeIconVisibility = MutableLiveData(false)
-    val nickname = MutableLiveData(getNickname())
+
+    val nickname = MutableLiveData(getNickname().value ?: "")
 
     fun onClickProfileImage() {
-        PermissionUtils.checkPermission("EditProfile")
+        PermissionUtils.checkPermission()
     }
 
     fun onClickRemoveImage() {

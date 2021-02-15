@@ -5,9 +5,10 @@
     <data>
         <variable
             name="viewModel"
-            type="com.nextus.kotlinmvvmexample.ui.mypage.edit.EditProfileViewModel" />
+            type="com.nextus.kotlinmvvmexample.ui.signup.SignUpViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color_background">
@@ -36,12 +37,10 @@
             android:id="@+id/profileImage"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="40dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_hero"
             android:onClick="@{() -> viewModel.onClickProfileImage()}"
-            app:profileUrl="@{viewModel.appUserInfo.imageUrl}"
-            app:update="@{viewModel.appUserInfo.updatedAt}"
             app:clipToCircle="@{true}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -53,11 +52,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:hint="닉네임"
+            android:hint="Nickname"
             android:textColorHint="@color/color_accent"
             app:hintTextColor="@color/color_accent"
             app:boxStrokeColor="@color/color_accent"
-            app:errorEnabled="true"
+            app:errorEnabled="@{viewModel.isShowError()}"
             app:errorTextColor="#F43636"
             app:layout_constraintEnd_toStartOf="@+id/guideline3"
             app:layout_constraintStart_toStartOf="@+id/guideline2"
@@ -69,6 +68,8 @@
                 android:text="@={viewModel.nickname}"
                 android:textCursorDrawable="@drawable/cursor"
                 android:maxLength="20"
+                android:maxLines="1"
+                android:inputType="text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -100,6 +101,43 @@
             app:layout_constraintEnd_toEndOf="@+id/profileImage"
             app:layout_constraintTop_toTopOf="@+id/profileImage"
             app:srcCompat="@drawable/ic_close" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginBottom="32dp"
+            android:text="Sign up"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:onClick="@{() -> viewModel.onClickSignUp()}"
+            android:enabled="@{viewModel.nickname.length() > 0}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="@+id/guideline2" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#aa000000"
+            android:clickable="true"
+            android:focusable="true"
+            app:goneUnless="@{viewModel.isLoading}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/appbar">
+
+            <ProgressBar
+                android:id="@+id/loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/colorAccent" />
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

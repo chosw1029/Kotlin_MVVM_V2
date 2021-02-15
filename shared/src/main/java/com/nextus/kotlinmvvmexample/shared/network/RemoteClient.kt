@@ -9,7 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RemoteClient {
 
-    private const val baseUrl = "ServerUrl"
+    private const val baseUrl = "ServerURL"
+
+    var token = ""
 
     fun createRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -29,8 +31,15 @@ object RemoteClient {
         val b = OkHttpClient.Builder()
         // 이 클라이언트를 통해 오고 가는 네트워크 요청/응답을 로그로 표시하도록 합니다.
         b.addInterceptor(interceptor)
-        /* // header 에 정보를 추가해 준다.
-         b.addInterceptor(AddHeaderInterceptor())*/
+
+        // header 에 정보를 추가해 준다.
+        b.addInterceptor { chain ->
+            val request = chain.request().newBuilder()
+                    .addHeader("Authorization", token)
+                    .build()
+
+            chain.proceed(request)
+        }
         return b.build()
     }
 

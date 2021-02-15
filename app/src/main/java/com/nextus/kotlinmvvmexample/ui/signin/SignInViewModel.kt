@@ -17,13 +17,10 @@
 package com.nextus.kotlinmvvmexample.ui.signin
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nextus.kotlinmvvmexample.shared.result.Event
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 /**
  * ViewModel for *both* the sign in & sign out dialogs.
@@ -32,25 +29,13 @@ class SignInViewModel @ViewModelInject constructor(
     signInViewModelDelegate: SignInViewModelDelegate
 ) : ViewModel(), SignInViewModelDelegate by signInViewModelDelegate {
 
-    private val _dismissDialogAction = MutableLiveData<Event<Unit>>()
-    val dismissDialogAction: LiveData<Event<Unit>>
-        get() = _dismissDialogAction
+    val isLoading = MutableLiveData(false)
 
     fun onSignIn() {
         viewModelScope.launch {
-            Timber.d("Sign in requested")
+            isLoading.postValue(true)
             emitSignInRequest()
         }
     }
 
-    fun onSignOut() {
-        viewModelScope.launch {
-            Timber.d("Sign out requested")
-            emitSignOutRequest()
-        }
-    }
-
-    fun onCancel() {
-        _dismissDialogAction.value = Event(Unit)
-    }
 }

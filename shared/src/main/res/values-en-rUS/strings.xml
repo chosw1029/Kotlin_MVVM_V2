@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_push_setting">qwe</string>
-    <string name="close_app">qwe</string>
-    <string name="request_sign_in">qwe</string>
-    <string name="request_permission">qwe</string>
-    <string name="permission_denied">qwe</string>
-    <string name="permission_denied_permanent">qwe</string>
+    <string name="close_app">Please press \'back\' again to exit.</string>
+    <string name="request_sign_in">This service requires login.\nDo you want to log in?</string>
+    <string name="request_permission">To be able to choose images from your library.</string>
+    <string name="permission_denied">Permission denied. Please enable permissions.</string>
+    <string name="permission_denied_permanent">Permission denied. You can grant them in app settings(App Info).</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="welcome">Welcome!</string>

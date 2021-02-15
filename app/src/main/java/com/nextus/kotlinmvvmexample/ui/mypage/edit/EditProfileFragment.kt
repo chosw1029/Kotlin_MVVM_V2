@@ -1,25 +1,31 @@
 package com.nextus.kotlinmvvmexample.ui.mypage.edit
 
 import android.app.Activity
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.nextus.kotlinmvvmexample.R
 import com.nextus.kotlinmvvmexample.databinding.FragmentEditProfileBinding
 import com.nextus.kotlinmvvmexample.shared.result.EventObserver
 import com.nextus.kotlinmvvmexample.ui.ContainerViewModel
 import com.nextus.kotlinmvvmexample.ui.base.BaseFragment
+import com.nextus.kotlinmvvmexample.util.BitmapUtils
 import dagger.hilt.android.AndroidEntryPoint
+import gun0912.tedimagepicker.builder.TedImagePicker
+import java.io.File
 
 @AndroidEntryPoint
 class EditProfileFragment: BaseFragment<FragmentEditProfileBinding>(R.layout.fragment_edit_profile) {
@@ -69,36 +75,45 @@ class EditProfileFragment: BaseFragment<FragmentEditProfileBinding>(R.layout.fra
 
     private fun subscribePermissionEvent() {
         containerViewModel.grantedEvent.observe(viewLifecycleOwner, EventObserver {
-            if(it.contentEquals("EditProfile")) {
-                ImagePicker.with(this)
-                        .galleryOnly()
-                        .compress(1024 * 4)  // Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1920, 1080)  // Final image resolution will be less than 1080 x 1080(Optional)
-                        .start { resultCode, data ->
-                            when (resultCode) {
-                                Activity.RESULT_OK -> {
-                                    //You can get File object from intent
-                                    val file = ImagePicker.getFile(data)
+            TedImagePicker.with(requireContext())
+                    .min(1, "")
+                    .max(5, "You can only select 5 images.")
+                    .startMultiImage { uriList ->
+                        uriList.map { uri ->
+                            requireActivity().contentResolver.query(uri, null, null, null, null )?.use { cursor ->
+                                val idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID)
+                                while(cursor.moveToNext()) {
+                                    val id = cursor.getLong(idColumn)
+                                    val size = cursor.getString( cursor.getColumnIndex( OpenableColumns.SIZE ))
+                                    val sourceFileName = cursor.getString( cursor.getColumnIndex( OpenableColumns.DISPLAY_NAME ))
 
-                                    //getBinding().profileImage.setImageBitmap(BitmapFactory.decodeFile(file?.path))
+                                    val file = File(requireContext().filesDir, sourceFileName)
 
-                                    Glide.with(requireContext()).load(file)
-                                            .placeholder(R.drawable.ic_hero)
-                                            .into(getBinding().profileImage)
-                                    //You can also get File Path from intent
-                                    val filePath = ImagePicker.getFilePath(data)
-
-                                    editProfileViewModel.removeIconVisibility.value = true
-                                }
-                                ImagePicker.RESULT_ERROR -> {
-                                    //Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                                }
-                                else -> {
-                                    //Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                                    if(sourceFileName.endsWith(".gif")) {
+                                        if(BitmapUtils.getSizeToMega(size ?: "0") > 10) {
+                                            Toast.makeText(requireContext(), "Image size is too big (less than 10MB)", Toast.LENGTH_SHORT).show()
+                                        } else {
+                                            requireActivity().contentResolver.openInputStream(uri).use { stream ->
+                                                stream?.let { inputStream ->
+                                                    BitmapUtils.copyStreamToFile(inputStream, file)
+                                                    Glide.with(requireContext()).load(file)
+                                                            .placeholder(R.drawable.ic_hero)
+                                                            .into(getBinding().profileImage)
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        requireActivity().contentResolver.openFileDescriptor(uri, "r").use { pfd ->
+                                            val bitmap = BitmapFactory.decodeFileDescriptor(pfd?.fileDescriptor)
+                                            Glide.with(requireContext()).load(BitmapUtils.resizeAndCompressImage(bitmap, file, size ?: "0"))
+                                                    .placeholder(R.drawable.ic_hero)
+                                                    .into(getBinding().profileImage)
+                                        }
+                                    }
                                 }
                             }
                         }
-            }
+                    }
         })
     }
 

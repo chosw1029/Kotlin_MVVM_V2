@@ -1,6 +1,6 @@
 package com.nextus.kotlinmvvmexample.shared.domain.user
 
-import com.nextus.kotlinmvvm.model.AppUser
+import com.google.gson.JsonObject
 import com.nextus.kotlinmvvmexample.shared.data.user.UserRepository
 import com.nextus.kotlinmvvmexample.shared.di.IoDispatcher
 import com.nextus.kotlinmvvmexample.shared.domain.FlowUseCase
@@ -8,15 +8,16 @@ import com.nextus.kotlinmvvmexample.shared.result.Result
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import timber.log.Timber
 import javax.inject.Inject
 
-open class GetUserUseCase @Inject constructor(
-    private val userRepository: UserRepository,
-    @IoDispatcher dispatcher: CoroutineDispatcher
-): FlowUseCase<String, AppUser>(dispatcher) {
+open class IsDuplicateNicknameUseCase @Inject constructor(
+        private val userRepository: UserRepository,
+        @IoDispatcher dispatcher: CoroutineDispatcher
+): FlowUseCase<String, JsonObject>(dispatcher) {
 
-    override fun execute(parameters: String): Flow<Result<AppUser>> {
-        return userRepository.getUser(parameters).map { result ->
+    override fun execute(parameters: String): Flow<Result<JsonObject>> {
+        return userRepository.isDuplicateNickname(parameters).map { result ->
             when(result) {
                 is Result.Success -> Result.Success(result.data)
                 is Result.Loading -> result
@@ -25,4 +26,5 @@ open class GetUserUseCase @Inject constructor(
             }
         }
     }
+
 }

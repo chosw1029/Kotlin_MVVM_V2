@@ -47,10 +47,7 @@ interface SignInHandler {
 /**
  * Implementation of [SignInHandler] that interacts with Firebase Auth.
  */
-class FirebaseAuthSignInHandler(
-        private val googleSignInClient: GoogleSignInClient,
-        private val externalScope: CoroutineScope
-) : SignInHandler {
+class FirebaseAuthSignInHandler(private val externalScope: CoroutineScope) : SignInHandler {
 
     /**
      * Request a sign in intent.
@@ -74,7 +71,6 @@ class FirebaseAuthSignInHandler(
             )
 
             result.postValue(
-                    //googleSignInClient.signInIntent
                 AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setAvailableProviders(providers)

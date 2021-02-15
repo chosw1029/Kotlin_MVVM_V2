@@ -21,7 +21,7 @@ plugins {
 
 val appcompat = "1.2.0"
 val activity = "1.1.0"
-val admob = "19.5.0"
+val admob = "19.7.0"
 val cardview = "1.0.0"
 val circleImageView = "3.1.0"
 val archTesting = "2.0.0"
@@ -35,12 +35,14 @@ val coroutinesTest = "1.3.9"
 val crashlytics = "2.10.1"
 val drawerLayout = "1.1.1"
 val espresso = "3.1.1"
+val facebookAds = "6.2.0.1"
 val firebaseAnalytics = "18.0.0"
-val firebaseCrashlytics = "17.2.2"
-val firebaseAuth = "20.0.0"
-val firebaseConfig = "20.0.0"
-val firebaseMessaging = "21.0.0"
+val firebaseCrashlytics = "17.3.1"
+val firebaseAuth = "20.0.2"
+val firebaseConfig = "20.0.3"
+val firebaseMessaging = "21.0.1"
 val firebaseInAppMessaging = "19.1.2"
+val firebaseFirestore = "22.1.0"
 val firebaseUi = "6.2.0"
 val flexbox = "1.1.0"
 val fragment = "1.2.4"
@@ -70,6 +72,7 @@ val retrofit = "2.7.1"
 val room = "2.2.5"
 val rules = "1.1.1"
 val runner = "1.2.0"
+val tedImagePicker = "1.1.7"
 val threetenabp = "1.0.5"
 val timber = "4.7.1"
 val viewpager2 = "1.0.0"
@@ -132,6 +135,7 @@ dependencies {
         api("${Libs.RETROFIT_RXJAVA_ADAPTER}:$retrofit")
         api("${Libs.RULES}:$rules")
         api("${Libs.RUNNER}:$runner")
+        api("${Libs.TED_IMAGE_PICKER}:$tedImagePicker")
         api("${Libs.TIMBER}:$timber")
         api("${Libs.VIEWPAGER2}:$viewpager2")
 
@@ -139,11 +143,12 @@ dependencies {
         api("${Libs.WORK_GCM}:$work")
         api("${Libs.WORK_RXJAVA}:$work")
 
+        api("${Libs.FACEBOOK_ADS}:$facebookAds")
         api("${Libs.FIREBASE_AUTH}:$firebaseAuth")
         api("${Libs.FIREBASE_CONFIG}:$firebaseConfig")
         api("${Libs.FIREBASE_ANALYTICS}:$firebaseAnalytics")
         api("${Libs.FIREBASE_CRASHLYTICS}:$firebaseCrashlytics")
-        //api("${Libs.FIREBASE_FIRESTORE}:$firebaseFirestore")
+        api("${Libs.FIREBASE_FIRESTORE}:$firebaseFirestore")
         //api("${Libs.FIREBASE_FUNCTIONS}:$firebaseFunctions")
         api("${Libs.FIREBASE_MESSAGING}:$firebaseMessaging")
         api("${Libs.FIREBASE_IN_APP_MESSAGING}:$firebaseInAppMessaging")

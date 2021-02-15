@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "923481514429-jfm2addgqskfj8k4rupb0ujaqeia2mp6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nextus.kotlinmvvmexample",
+            "certificate_hash": "1ce0baa828e143a6887feb1d46f153d3a0fc9464"
+          }
+        },
+        {
           "client_id": "923481514429-n25g2uv1nl6ikkthhcdjp6e2ebm7hhps.apps.googleusercontent.com",
           "client_type": 3
         }

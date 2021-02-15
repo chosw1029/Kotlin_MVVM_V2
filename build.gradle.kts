@@ -1,6 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    val kotlin_version by extra("1.4.0")
     repositories {
         google()
         mavenCentral()
@@ -29,19 +28,6 @@ allprojects {
         mavenCentral()
         jcenter()
         maven { url = uri("https://jitpack.io") }
-        // For Android Build Server
-        // - Material Design Components
-        /*maven { url = uri("${project.rootDir}/../iosched-prebuilts/repository") }
-        // - Other dependencies
-        maven { url = uri("${project.rootDir}/../iosched-prebuilts/m2repository") }
-        // - Support Libraries, etc
-        maven {
-            url = uri("${project.rootDir}/../../../prebuilts/fullsdk/linux/extras/support/m2repository")
-        }*/
-
-        /*flatDir {
-            dirs = setOf(file("libs"), project(":ar").file("libs"))
-        }*/
     }
 }
 

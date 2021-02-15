@@ -22,6 +22,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.ktx.Firebase
 import com.nextus.kotlinmvvmexample.R
 import com.nextus.kotlinmvvmexample.shared.data.signin.source.AuthIdDataSource
@@ -31,6 +32,7 @@ import com.nextus.kotlinmvvmexample.shared.di.ApplicationScope
 import com.nextus.kotlinmvvmexample.shared.di.IoDispatcher
 import com.nextus.kotlinmvvmexample.shared.di.MainDispatcher
 import com.nextus.kotlinmvvmexample.shared.domain.notification.NotificationAlarmUpdater
+import com.nextus.kotlinmvvmexample.shared.domain.user.GetUserUseCase
 import com.nextus.kotlinmvvmexample.shared.fcm.FcmTokenUpdater
 import com.nextus.kotlinmvvmexample.util.signin.FirebaseAuthSignInHandler
 import com.nextus.kotlinmvvmexample.util.signin.SignInHandler
@@ -49,26 +51,33 @@ internal class SignInModule {
 
     @Provides
     fun provideSignInHandler(
-            googleSignInClient: GoogleSignInClient,
         @ApplicationScope applicationScope: CoroutineScope
-    ): SignInHandler = FirebaseAuthSignInHandler(googleSignInClient, applicationScope)
+    ): SignInHandler = FirebaseAuthSignInHandler(applicationScope)
 
     @Singleton
     @Provides
     fun provideAuthStateUserDataSource(
             firebase: FirebaseAuth,
+            firestore: FirebaseFirestore,
+            getUserUseCase: GetUserUseCase,
             notificationAlarmUpdater: NotificationAlarmUpdater,
             @ApplicationScope applicationScope: CoroutineScope,
             @IoDispatcher ioDispatcher: CoroutineDispatcher,
             @MainDispatcher mainDispatcher: CoroutineDispatcher
     ): AuthStateUserDataSource {
-
         return FirebaseAuthStateUserDataSource(
             firebase,
-            FcmTokenUpdater(applicationScope, mainDispatcher),
+            FcmTokenUpdater(applicationScope, mainDispatcher, firestore),
             notificationAlarmUpdater,
+            getUserUseCase,
             ioDispatcher
         )
+    }
+
+    @Singleton
+    @Provides
+    fun provideFirebaseFireStore(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
     }
 
     @Singleton

@@ -1,27 +1,23 @@
-package com.nextus.kotlinmvvmexample.fcm
+package com.nextus.kotlinmvvmexample.shared.fcm
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
+import android.app.*
+import android.content.Intent
 import android.graphics.BitmapFactory
-import android.media.RingtoneManager
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.content.getSystemService
-import androidx.navigation.NavDeepLinkBuilder
+import androidx.core.net.toUri
 import androidx.work.Data
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import androidx.work.workDataOf
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
-import com.nextus.kotlinmvvmexample.R
+import com.nextus.kotlinmvvmexample.shared.R
 import com.nextus.kotlinmvvmexample.shared.data.prefs.SharedPreferenceStorage
-import com.nextus.kotlinmvvmexample.shared.fcm.FcmWorker
-import com.nextus.kotlinmvvmexample.ui.ContainerActivity
-import com.nextus.kotlinmvvmexample.ui.launcher.LauncherActivity
-import com.nextus.kotlinmvvmexample.util.isAppInForeground
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,33 +41,12 @@ class FcmMessagingService : FirebaseMessagingService()  {
     private fun worker(remoteMessage: RemoteMessage) {
         // TODO(developer): Handle FCM messages here.
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-        Timber.e("From: ${remoteMessage.from}")
+        Timber.d("From: ${remoteMessage.from}")
+        val data = remoteMessage.data
 
-        // Check if message contains a data payload.
-        if (remoteMessage.data.isNotEmpty()) {
-            Timber.d("Message data payload: ${remoteMessage.data}")
-
-            if (remoteMessage.data["type"] == "Back") {
-                // For long-running tasks (10 seconds or more) use WorkManager.
-                scheduleJob(remoteMessage)
-            } else {
-                // Handle message within 10 seconds
-                //handleNow()
-                sendNotification(remoteMessage.data["title"]!!, remoteMessage.data["body"]!!)
-            }
+        if(data[TRIGGER_COMMENT_AND_TAG_NOTIFICATION_KEY] == TRIGGER_COMMENT_AND_TAG_NOTIFICATION) {
+            createCommentAndTagIntent(data["title"], data["body"], data["profileUrl"])
         }
-
-
-        /*val myData: Data = workDataOf(
-            "bid" to remoteMessage.data["item"],
-            "title" to remoteMessage.data["title"],
-            "body" to remoteMessage.data["body"],
-            "imageUrl" to remoteMessage.data["imageUrl"],
-            "type" to remoteMessage.data["type"]
-        )
-
-        val work = OneTimeWorkRequest.Builder(FcmWorker::class.java).setInputData(myData).build()
-        WorkManager.getInstance(this).beginWith(work).enqueue()*/
     }
 
     /**
@@ -79,39 +54,70 @@ class FcmMessagingService : FirebaseMessagingService()  {
      *
      * @param messageBody FCM message body received.
      */
-    private fun sendNotification(title: String, body: String) {
+    private fun createCommentAndTagIntent(title: String?, body: String?, profileImageUrl: String?) {
         val notificationManager: NotificationManager = getSystemService()
                 ?: throw Exception("Notification Manager not found.")
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            makeNotificationChannelForPreSession(notificationManager)
+        }
 
         if (!sharedPreferencesStorage.preferToReceiveCommentAndTagNotifications) {
             Timber.d("User disabled notifications, not showing")
             return
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            makeNotificationChannelForPreSession(notificationManager)
+        val intent = Intent(
+                Intent.ACTION_VIEW,
+                "".toUri()
+                //"iosched://sessions?$QUERY_SESSION_ID=${session.id}".toUri()
+        ).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
 
-        val pendingIntent = NavDeepLinkBuilder(this)
-                .setGraph(R.navigation.nav_graph)
-                .setComponentName(if(isAppInForeground()) ContainerActivity::class.java else LauncherActivity::class.java)
-                .setDestination(R.id.navigation_main)
-                .createPendingIntent()
+        // Create the TaskStackBuilder
+        val resultPendingIntent: PendingIntent? = TaskStackBuilder.create(this)
+                // Add the intent, which inflates the back stack
+                .addNextIntentWithParentStack(intent)
+                // Get the PendingIntent containing the entire back stack
+                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT)
 
-        val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-        val notificationBuilder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_hero)
-                .setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_hero))
+        val notification = NotificationCompat.Builder(this, FcmWorker.CHANNEL_ID)
                 .setContentTitle(title)
-                .setContentText(body)
                 .setStyle(NotificationCompat.BigTextStyle().bigText(body))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_hero)
+                .setContentIntent(resultPendingIntent)
                 .setAutoCancel(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 
-        notificationManager.notify(System.currentTimeMillis().toInt() /* ID of notification */, notificationBuilder.build())
+        if(profileImageUrl.isNullOrEmpty()) {
+            notification.setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_hero))
+        } else {
+            try {
+                val largeIcon = Glide.with(this)
+                        .asBitmap()
+                        .load(getProfileImageUrl())
+                        .apply(RequestOptions.circleCropTransform())
+                        .submit()
+
+                notification.setLargeIcon(largeIcon.get())
+                Glide.with(this).clear(largeIcon)
+            } catch (e: Exception) {
+                Timber.e(e)
+                notification.setLargeIcon(BitmapFactory.decodeResource(resources, R.drawable.ic_hero))
+            }
+        }
+
+        notificationManager.notify(System.currentTimeMillis().toInt(), notification.build())
     }
 
+    private fun getProfileImageUrl(): String {
+        return ""
+    }
+
+    /**
+     * 오래걸리는 작업 처리
+     */
     private fun scheduleJob(remoteMessage: RemoteMessage) {
         val myData: Data = workDataOf(
             "title" to remoteMessage.data["title"]
@@ -142,5 +148,7 @@ class FcmMessagingService : FirebaseMessagingService()  {
     companion object {
         const val CHANNEL_ID = "NextUs"
         const val CHANNEL_NAME = "NextUsChannel"
+        const val TRIGGER_COMMENT_AND_TAG_NOTIFICATION = "COMMENT_AND_TAG_NOTIFICATION"
+        const val TRIGGER_COMMENT_AND_TAG_NOTIFICATION_KEY = "action"
     }
 }

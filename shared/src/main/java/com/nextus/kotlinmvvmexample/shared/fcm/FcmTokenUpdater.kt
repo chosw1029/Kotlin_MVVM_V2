@@ -16,7 +16,11 @@
 
 package com.nextus.kotlinmvvmexample.shared.fcm
 
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.installations.FirebaseInstallations
 import com.nextus.kotlinmvvmexample.shared.di.ApplicationScope
 import com.nextus.kotlinmvvmexample.shared.di.MainDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
@@ -30,18 +34,26 @@ import javax.inject.Inject
  */
 class FcmTokenUpdater @Inject constructor(
     @ApplicationScope private val externalScope: CoroutineScope,
-    @MainDispatcher private val mainDispatcher: CoroutineDispatcher
+    @MainDispatcher private val mainDispatcher: CoroutineDispatcher,
+    val firestore: FirebaseFirestore
 ) {
 
     fun updateTokenForUser(userId: String) {
-        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener { instanceIdResult ->
+        FirebaseInstallations.getInstance().getToken(false).addOnSuccessListener { instanceIdResult ->
             val token = instanceIdResult.token
 
-            Timber.e("Firebase Token : $token")
+            Timber.e("UserID : $userId")
+            // Write token to /users/<userId>/fcmTokens/<token[0..TOKEN_ID_LENGTH]/
+            val tokenInfo = mapOf(
+                    LAST_VISIT_KEY to FieldValue.serverTimestamp(),
+                    TOKEN_ID_KEY to token
+            )
+
             // All Firestore operations start from the main thread to avoid concurrency issues.
             externalScope.launch(mainDispatcher) {
-                /*firestore
-                    .document2020()
+                firestore
+                    .collection("couch_bears")
+                    .document("test_app")
                     .collection(USERS_COLLECTION)
                     .document(userId)
                     .collection(FCM_IDS_COLLECTION)
@@ -52,7 +64,7 @@ class FcmTokenUpdater @Inject constructor(
                         } else {
                             Timber.e("FCM ID token: Error uploading for user $userId")
                         }
-                    }*/
+                    }
             }
         }
     }

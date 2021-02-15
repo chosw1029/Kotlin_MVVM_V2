@@ -8,40 +8,41 @@ import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.nextus.kotlinmvvmexample.R
 import com.nextus.kotlinmvvmexample.ui.ContainerViewModel
+import com.nextus.kotlinmvvmexample.ui.signup.SignUpViewModel
+import timber.log.Timber
 
 const val PERMISSION_REQUEST = 0
 
-object PermissionUtils: ActivityCompat.OnRequestPermissionsResultCallback  {
+object PermissionUtils {
 
     private val requiredPermissions = arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     private var appCompatActivity: AppCompatActivity? = null
     private var containerViewModel: ContainerViewModel? = null
+    private var signUpViewModel: SignUpViewModel? = null
     private var root: View? = null
-    private var fragmentName = ""
 
-    fun initVariables(appCompatActivity: AppCompatActivity, containerViewModel: ContainerViewModel, root: View) {
+    fun initVariables(appCompatActivity: AppCompatActivity, containerViewModel: ContainerViewModel?, signUpViewModel: SignUpViewModel?, root: View) {
         this.appCompatActivity = appCompatActivity
         this.containerViewModel = containerViewModel
         this.root = root
     }
 
-    fun checkPermission(fragmentName: String) {
-        this.fragmentName = fragmentName
-
+    fun checkPermission() {
         val cameraPermissionResult = appCompatActivity?.checkSelfPermissionCompat(requiredPermissions[0])
         val storagePermissionResult = appCompatActivity?.checkSelfPermissionCompat(requiredPermissions[1])
 
         if(cameraPermissionResult == PackageManager.PERMISSION_GRANTED &&
                 storagePermissionResult == PackageManager.PERMISSION_GRANTED) {
-            containerViewModel?.permissionGranted(fragmentName)
+            containerViewModel?.permissionGranted()
+            signUpViewModel?.permissionGranted()
         } else {
             // 퍼미션을 거부한 적이 있는 경우
             appCompatActivity?.let {
                 if(it.shouldShowRequestPermissionRationaleCompat(requiredPermissions[0]) ||
                         it.shouldShowRequestPermissionRationaleCompat(requiredPermissions[1])) {
                     root?.showSnackbar(R.string.request_permission,
-                            Snackbar.LENGTH_INDEFINITE, R.string.ok) { view ->
+                            Snackbar.LENGTH_INDEFINITE, R.string.ok) { _ ->
                         it.requestPermissionsCompat(requiredPermissions, PERMISSION_REQUEST)
                     }
                 } else {
@@ -50,34 +51,4 @@ object PermissionUtils: ActivityCompat.OnRequestPermissionsResultCallback  {
             }
         }
     }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-
-        if (requestCode == PERMISSION_REQUEST) {
-
-            var permissionResult = false
-
-            for(result in grantResults) {
-                if(result != PackageManager.PERMISSION_GRANTED) {
-                    permissionResult = false
-                    break
-                }
-            }
-
-            if(permissionResult) {
-                containerViewModel?.permissionGranted(fragmentName)
-            } else {
-                appCompatActivity?.let {
-                    if(it.shouldShowRequestPermissionRationaleCompat(requiredPermissions[0]) ||
-                            it.shouldShowRequestPermissionRationaleCompat(requiredPermissions[1])) {
-                        root?.showSnackbar(R.string.permission_denied, Snackbar.LENGTH_INDEFINITE, R.string.ok) {}
-                    } else { // 다시 보지 않음을 체크하고 거부한 경우
-                        root?.showSnackbar(R.string.permission_denied_permanent, Snackbar.LENGTH_INDEFINITE, R.string.ok) {}
-                    }
-                }
-            }
-        }
-
-    }
-
 }

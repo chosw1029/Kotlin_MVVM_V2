@@ -55,7 +55,7 @@ interface SignInViewModelDelegate {
      * Live updated value of the current firebase user
      */
     val currentUserInfo: LiveData<AuthenticatedUserInfo?>
-    val currentAppUserInfo: LiveData<AppUser?>
+    val appUserInfo: LiveData<AppUser?>
 
     /**
      * Live updated value of the current firebase users image url
@@ -90,7 +90,7 @@ interface SignInViewModelDelegate {
      */
     fun getUserId(): String?
 
-    fun getNickname(): String?
+    fun getNickname(): LiveData<String?>
 }
 
 /**
@@ -106,7 +106,6 @@ internal class FirebaseSignInViewModelDelegate @Inject constructor(
 
     private val currentFirebaseUser: Flow<Result<AuthenticatedUserInfo?>> =
         observeUserAuthStateUseCase(Any()).map {
-            Timber.e("observeUserAuthStateUseCase")
             if (it is Result.Error) {
                 Timber.e(it.exception)
             }
@@ -117,16 +116,11 @@ internal class FirebaseSignInViewModelDelegate @Inject constructor(
         (it as? Result.Success)?.data
     }.asLiveData()
 
-    override val currentAppUserInfo: LiveData<AppUser?> = currentUserInfo.switchMap {
-        (it as FirebaseUserInfo).appUser
-    }
+    override val appUserInfo: LiveData<AppUser?> = currentUserInfo.map { it?.getAppUser() }
 
-    override val currentUserImageUri: LiveData<String?> = currentAppUserInfo.map {
-        it?.imageUrl
-    }
+    override val currentUserImageUri: LiveData<String?> = appUserInfo.map { it?.imageUrl }
 
     private val isSignedIn: LiveData<Boolean> = currentUserInfo.map {
-        Timber.e("currentUserInfoChanged")
         it?.isSignedIn() ?: false
     }
 
@@ -146,7 +140,7 @@ internal class FirebaseSignInViewModelDelegate @Inject constructor(
     }
 
     override fun updateAppUser(appUser: AppUser) {
-        (currentUserInfo.value as FirebaseUserInfo).getAppUser()
+        (currentUserInfo.value as FirebaseUserInfo).setAppUser(appUser)
     }
 
     override fun isSignedIn(): Boolean = isSignedIn.value == true
@@ -159,7 +153,5 @@ internal class FirebaseSignInViewModelDelegate @Inject constructor(
         return currentUserInfo.value?.getUid()
     }
 
-    override fun getNickname(): String? {
-        return currentAppUserInfo.value?.nickname
-    }
+    override fun getNickname(): LiveData<String?> = appUserInfo.map { it?.nickname }
 }

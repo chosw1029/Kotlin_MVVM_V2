@@ -58,6 +58,6 @@ interface AuthenticatedUserInfoBasic {
 
     fun getAppUser(): AppUser?
 
-    fun setAppUser(appUser: AppUser?)
+    fun setAppUser(appUser: AppUser)
 
 }

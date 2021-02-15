@@ -23,21 +23,20 @@ import com.google.firebase.auth.UserInfo
 import com.nextus.kotlinmvvm.model.AppUser
 
 class FirebaseUserInfo(
-    private val firebaseUser: FirebaseUser?
+    private val firebaseUser: FirebaseUser?,
+    private var appUser: AppUser?
 ) : AuthenticatedUserInfo {
-
-    val appUser = MutableLiveData<AppUser>()
 
     override fun isSignedIn(): Boolean = firebaseUser != null
 
-    override fun isRegistered(): Boolean = appUser.value != null
+    override fun isRegistered(): Boolean = appUser != null
 
     override fun getFirebaseUser(): FirebaseUser? = firebaseUser
 
-    override fun getAppUser(): AppUser? = appUser.value
+    override fun getAppUser(): AppUser? = appUser
 
-    override fun setAppUser(user: AppUser?) {
-        appUser.postValue(user)
+    override fun setAppUser(appUser: AppUser) {
+        this.appUser = appUser
     }
 
     override fun getEmail(): String? = firebaseUser?.email
@@ -52,7 +51,7 @@ class FirebaseUserInfo(
 
     override fun isEmailVerified(): Boolean? = firebaseUser?.isEmailVerified
 
-    override fun getDisplayName(): String? = appUser.value?.nickname
+    override fun getDisplayName(): String? = appUser?.nickname
 
     override fun getPhotoUrl(): Uri? = firebaseUser?.photoUrl
 

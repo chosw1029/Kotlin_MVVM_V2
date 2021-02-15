@@ -69,7 +69,7 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
                     if (userResult.data != null) {
                         processUserData(userResult.data)
                     } else {
-                        channel.offer(Result.Success(FirebaseUserInfo(userResult.data))) // userResult.data == null
+                        channel.offer(Result.Success(FirebaseUserInfo(userResult.data, null))) // userResult.data == null
                     }
                 } else {
                     channel.offer(Result.Error(Exception("FirebaseAuth error")))
@@ -111,16 +111,14 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
                 when(result) {
                     is Result.Success -> {
                         channel.offer(
-                            Result.Success(FirebaseUserInfo(userData.getFirebaseUser()).apply {
-                                setAppUser(result.data)
-                                //subscribeToCommentAndTagTopic(result.data.uid)
-                                subscribeToCommentAndTagTopic("bGhiktIEWnMJz1hsFvqvY1hjQCr2")
+                            Result.Success(FirebaseUserInfo(userData.getFirebaseUser(), result.data).apply {
+                                subscribeToCommentAndTagTopic(result.data.uid)
                             })
                         )
                     }
                     else -> {
                         channel.offer(
-                            Result.Success(FirebaseUserInfo(userData.getFirebaseUser()))
+                            Result.Success(FirebaseUserInfo(userData.getFirebaseUser(), null))
                         )
                     }
                 }
@@ -131,9 +129,7 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
     private fun ProducerScope<Result<AuthenticatedUserInfo>>.userSignedOut(
         userData: AuthenticatedUserInfoBasic?
     ) {
-        channel.offer(Result.Success(FirebaseUserInfo(userData?.getFirebaseUser()).apply {
-            setAppUser(null)
-        }))
+        channel.offer(Result.Success(FirebaseUserInfo(userData?.getFirebaseUser(), null)))
 
         unsubscribeFromCommentAndTagTopic(userData?.getUid() ?: "") // Stop receiving notifications
     }

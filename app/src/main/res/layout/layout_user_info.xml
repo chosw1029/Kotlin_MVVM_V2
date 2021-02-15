@@ -23,8 +23,8 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_hero"
                 app:clipToCircle="@{true}"
-                app:profileUrl="@{viewModel.currentAppUserInfo.imageUrl}"
-                app:update="@{viewModel.currentAppUserInfo.updatedAt}"
+                app:profileUrl="@{viewModel.appUserInfo.imageUrl}"
+                app:update="@{viewModel.appUserInfo.updatedAt}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

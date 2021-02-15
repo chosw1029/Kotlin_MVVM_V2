@@ -19,17 +19,21 @@ package com.nextus.kotlinmvvmexample.shared.data.signin.source
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GetTokenResult
+import com.nextus.kotlinmvvm.model.AppUser
 import com.nextus.kotlinmvvmexample.shared.data.signin.AuthenticatedUserInfoBasic
 import com.nextus.kotlinmvvmexample.shared.data.signin.FirebaseUserInfo
 import com.nextus.kotlinmvvmexample.shared.di.IoDispatcher
 import com.nextus.kotlinmvvmexample.shared.domain.notification.NotificationAlarmUpdater
+import com.nextus.kotlinmvvmexample.shared.domain.user.GetUserUseCase
 import com.nextus.kotlinmvvmexample.shared.fcm.FcmTokenUpdater
+import com.nextus.kotlinmvvmexample.shared.network.RemoteClient
 import com.nextus.kotlinmvvmexample.shared.result.Result
 import com.nextus.kotlinmvvmexample.shared.util.suspendAndWait
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import timber.log.Timber
 import javax.inject.Inject
@@ -50,16 +54,19 @@ import javax.inject.Inject
  * [FirestoreRegisteredUserDataSource].
  */
 class FirebaseAuthStateUserDataSource @Inject constructor(
-        val firebase: FirebaseAuth,
-        private val tokenUpdater: FcmTokenUpdater,
-        private val notificationAlarmUpdater: NotificationAlarmUpdater,
-        @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    val firebase: FirebaseAuth,
+    private val tokenUpdater: FcmTokenUpdater,
+    private val notificationAlarmUpdater: NotificationAlarmUpdater,
+    private val getUserUseCase: GetUserUseCase,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : AuthStateUserDataSource {
 
     // lastUid can be potentially consumed and written from different threads
     // Making it thread safe with @Volatile
     @Volatile
     private var lastUid: String? = null
+
+    private var appUser: AppUser? = null
 
     override fun getBasicUserInfo(): Flow<Result<AuthenticatedUserInfoBasic?>> {
         return channelFlow<FirebaseAuth> {
@@ -81,7 +88,6 @@ class FirebaseAuthStateUserDataSource @Inject constructor(
         // Listener that saves the [FirebaseUser], fetches the ID token
         // and updates the user ID observable.
         Timber.d("Received a FirebaseAuth update.")
-
         auth.currentUser?.let { currentUser ->
             // Get the ID token (force refresh)
             val tokenTask = currentUser.getIdToken(true)
@@ -90,12 +96,20 @@ class FirebaseAuthStateUserDataSource @Inject constructor(
                 tokenResult.token?.let {
                     // Call registration point to generate a result in Firestore
                     Timber.d("User authenticated, hitting registration endpoint")
+                    RemoteClient.token = it
                     //AuthenticatedUserRegistration.callRegistrationEndpoint(it, ioDispatcher)
+                    getUserUseCase(currentUser.uid).collect { result ->
+                        when(result) {
+                            is Result.Success -> appUser = result.data
+                            else -> {}
+                        }
+                    }
                 }
             } catch (e: Exception) {
                 Timber.e(e)
                 return@let
             }
+
             // Save the FCM ID token in firestore
             tokenUpdater.updateTokenForUser(currentUser.uid)
         }
@@ -115,6 +129,6 @@ class FirebaseAuthStateUserDataSource @Inject constructor(
         lastUid = auth.uid
 
         // Send the current user for observers
-        return Result.Success(FirebaseUserInfo(auth.currentUser))
+        return Result.Success(FirebaseUserInfo(auth.currentUser, appUser))
     }
 }

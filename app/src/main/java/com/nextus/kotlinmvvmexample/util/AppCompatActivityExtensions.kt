@@ -9,7 +9,6 @@ fun AppCompatActivity.checkSelfPermissionCompat(permission: String) =
 fun AppCompatActivity.shouldShowRequestPermissionRationaleCompat(permission: String) =
         ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
 
-fun AppCompatActivity.requestPermissionsCompat(permissionsArray: Array<String>,
-                                               requestCode: Int) {
+fun AppCompatActivity.requestPermissionsCompat(permissionsArray: Array<String>, requestCode: Int) {
     ActivityCompat.requestPermissions(this, permissionsArray, requestCode)
 }

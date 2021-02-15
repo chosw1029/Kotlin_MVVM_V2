@@ -120,7 +120,8 @@ dependencies {
     api(Libs.FIREBASE_IN_APP_MESSAGING)
     api(Libs.FIREBASE_IN_APP_MESSAGING_DISPLAY)
     api(Libs.FIREBASE_CRASHLYTICS)
-    /*api(Libs.FIREBASE_FIRESTORE)
+    api(Libs.FIREBASE_FIRESTORE)
+    /*
     api(Libs.FIREBASE_FUNCTIONS)*/
     api(Libs.FIREBASE_MESSAGING)
     api(Libs.ADMOB)

@@ -95,7 +95,7 @@ android {
 dependencies {
     api(platform(project(":depconstraints")))
     implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}")
     implementation("androidx.constraintlayout:constraintlayout:2.0.2")
     kapt(platform(project(":depconstraints")))
 
@@ -163,7 +163,8 @@ dependencies {
     implementation(Libs.GSON)
 
     // EasyImage
-    implementation(Libs.IMAGE_PICKER)
+    // implementation(Libs.IMAGE_PICKER)
+    implementation(Libs.TED_IMAGE_PICKER)
     implementation(Libs.INLINE_ACTIVITY_RESULT)
 
     implementation(Libs.ARCORE)
@@ -174,6 +175,8 @@ dependencies {
     // Youtube Player
     implementation(Libs.YOUTUBE)
 
+
+    implementation(Libs.FACEBOOK_ADS)
     /*
     implementation(Libs.BROWSER)
     implementation(Libs.FLEXBOX)

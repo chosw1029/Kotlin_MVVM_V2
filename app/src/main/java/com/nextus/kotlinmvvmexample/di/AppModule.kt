@@ -29,7 +29,6 @@ import com.nextus.kotlinmvvmexample.shared.data.prefs.SharedPreferenceStorage
 import com.nextus.kotlinmvvmexample.shared.di.ApplicationScope
 import com.nextus.kotlinmvvmexample.shared.di.DefaultDispatcher
 import com.nextus.kotlinmvvmexample.shared.network.RemoteClient
-import com.nextus.kotlinmvvmexample.shared.network.api.WeatherApi
 import com.nextus.kotlinmvvmexample.ui.signin.SignInViewModelDelegate
 import com.nextus.kotlinmvvmexample.util.FirebaseAnalyticsHelper
 import dagger.Module
@@ -90,23 +89,7 @@ class AppModule {
         signInDelegate: SignInViewModelDelegate
     ): AnalyticsHelper = FirebaseAnalyticsHelper(applicationScope, context, signInDelegate)
 
-    @Singleton
-    @Provides
-    fun provideWeatherApi(): WeatherApi = RemoteClient.createRetrofit().create(WeatherApi::class.java)
-
-
-   /* @Singleton
-    @Provides
-    @MainThreadHandler
-    fun provideMainThreadHandler(): IOSchedHandler = IOSchedMainHandler()
-
-
-
-    @Singleton
-    @Provides
-    fun provideAgendaRepository(appConfigDataSource: AppConfigDataSource): AgendaRepository =
-        DefaultAgendaRepository(appConfigDataSource)
-
+   /*
     @Singleton
     @Provides
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
