@@ -35,8 +35,6 @@ android {
         versionName = Versions.versionName
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders["firebase_crashlytics_collection_enabled"] = mutableMapOf("crashlyticsEnabled" to true)
-
         vectorDrawables.useSupportLibrary = true
 
         javaCompileOptions {
@@ -45,9 +43,13 @@ android {
             }
         }
     }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = true
+            }
             manifestPlaceholders["crashlyticsEnabled"] = mutableMapOf("crashlyticsEnabled" to true)
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
@@ -94,13 +96,13 @@ android {
 
 dependencies {
     api(platform(project(":depconstraints")))
-    implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Versions.KOTLIN}")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.2")
     kapt(platform(project(":depconstraints")))
 
     implementation(project(":shared"))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(platform("com.google.firebase:firebase-bom:26.5.0"))
+
+    add("coreLibraryDesugaring", "com.android.tools:desugar_jdk_libs:1.1.0")
 
     // UI
     implementation(Libs.ACTIVITY_KTX)
@@ -141,7 +143,7 @@ dependencies {
 
     // Fabric and Firebase
     implementation(Libs.FIREBASE_UI_AUTH)
-    implementation(Libs.CRASHLYTICS)
+    implementation(Libs.FIREBASE_CRASHLYTICS)
 
     // Kotlin
     implementation(Libs.KOTLIN_STDLIB)
@@ -167,7 +169,7 @@ dependencies {
     implementation(Libs.TED_IMAGE_PICKER)
     implementation(Libs.INLINE_ACTIVITY_RESULT)
 
-    implementation(Libs.ARCORE)
+    //implementation(Libs.ARCORE)
 
     // Circle ImageView
     implementation(Libs.CIRCLE_IMAGE_VIEW)
@@ -177,14 +179,20 @@ dependencies {
 
 
     implementation(Libs.FACEBOOK_ADS)
-    /*
-    implementation(Libs.BROWSER)
-    implementation(Libs.FLEXBOX)
 
-    // Date and time API for Java.
-    implementation(Libs.THREETENABP)
-    testImplementation(Libs.THREETENBP)
-   */
+    // HTML Text View
+    implementation(Libs.HTML_TEXT_VIEW)
+
+    // Glide SVG
+    implementation(Libs.GLIDE_SVG)
+
+    // Chart
+    implementation(Libs.MP_ANDROID_CHART)
+
+    // Amplify
+    implementation(Libs.AMPLIFY_CORE)
+    implementation(Libs.AMPLIFY_STORAGE)
+    implementation(Libs.AMPLIFY_AUTH)
 }
 
 apply(plugin = "com.google.gms.google-services")

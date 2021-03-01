@@ -20,6 +20,8 @@ android {
                 arguments["room.incremental"] = "true"
             }
         }
+
+        consumerProguardFiles("consumer-proguard-rules.pro")
     }
 
     buildTypes {
@@ -68,6 +70,7 @@ dependencies {
     kapt(platform(project(":depconstraints")))
     api(project(":model"))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(platform("com.google.firebase:firebase-bom:26.5.0"))
     //testImplementation(project(":test-shared"))
     //testImplementation(project(":androidTest-shared"))
 
@@ -116,7 +119,6 @@ dependencies {
     api(Libs.FIREBASE_AUTH)
     api(Libs.FIREBASE_CONFIG)
     api(Libs.FIREBASE_ANALYTICS)
-    api(Libs.FIREBASE_CRASHLYTICS)
     api(Libs.FIREBASE_IN_APP_MESSAGING)
     api(Libs.FIREBASE_IN_APP_MESSAGING_DISPLAY)
     api(Libs.FIREBASE_CRASHLYTICS)

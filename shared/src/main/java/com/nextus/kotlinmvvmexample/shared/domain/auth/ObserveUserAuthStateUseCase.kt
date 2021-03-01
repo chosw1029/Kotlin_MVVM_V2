@@ -17,16 +17,15 @@
 package com.nextus.kotlinmvvmexample.shared.domain.auth
 
 import com.nextus.kotlinmvvmexample.shared.data.signin.AuthenticatedUserInfo
-import com.nextus.kotlinmvvmexample.shared.data.signin.AuthenticatedUserInfoBasic
 import com.nextus.kotlinmvvmexample.shared.data.signin.FirebaseUserInfo
 import com.nextus.kotlinmvvmexample.shared.data.signin.source.AuthStateUserDataSource
 import com.nextus.kotlinmvvmexample.shared.di.ApplicationScope
 import com.nextus.kotlinmvvmexample.shared.di.IoDispatcher
 import com.nextus.kotlinmvvmexample.shared.domain.FlowUseCase
 import com.nextus.kotlinmvvmexample.shared.domain.user.GetUserUseCase
+import com.nextus.kotlinmvvmexample.shared.fcm.TopicSubscriber
 import com.nextus.kotlinmvvmexample.shared.result.Result
 import com.nextus.kotlinmvvmexample.shared.util.cancelIfActive
-import com.nextus.kotlinmvvmexample.shared.fcm.TopicSubscriber
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -35,7 +34,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -69,7 +67,7 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
                     if (userResult.data != null) {
                         processUserData(userResult.data)
                     } else {
-                        channel.offer(Result.Success(FirebaseUserInfo(userResult.data, null))) // userResult.data == null
+                        channel.offer(Result.Success(FirebaseUserInfo(userResult.data, null, false))) // userResult.data == null
                     }
                 } else {
                     channel.offer(Result.Error(Exception("FirebaseAuth error")))
@@ -87,7 +85,7 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
     }
 
     private suspend fun ProducerScope<Result<AuthenticatedUserInfo>>.processUserData(
-        userData: AuthenticatedUserInfoBasic
+        userData: AuthenticatedUserInfo
     ) {
         if (!userData.isSignedIn()) {
             userSignedOut(userData)
@@ -100,7 +98,7 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
 
     private suspend fun ProducerScope<Result<AuthenticatedUserInfo>>.userSignedIn(
             userId: String,
-            userData: AuthenticatedUserInfoBasic
+            userData: AuthenticatedUserInfo
     ) {
         // Observing the user registration changes from another scope as doing it using a
         // supervisorScope was keeping the coroutine busy and updates to
@@ -111,14 +109,19 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
                 when(result) {
                     is Result.Success -> {
                         channel.offer(
-                            Result.Success(FirebaseUserInfo(userData.getFirebaseUser(), result.data).apply {
-                                subscribeToCommentAndTagTopic(result.data.uid)
-                            })
+                                Result.Success(FirebaseUserInfo(userData.getFirebaseUser(), result.data, false).apply {
+                                    subscribeToCommentAndTagTopic(result.data.uid)
+                                })
+                        )
+                    }
+                    is Result.Error -> {
+                        channel.offer(
+                                Result.Success(FirebaseUserInfo(userData.getFirebaseUser(), null, true))
                         )
                     }
                     else -> {
                         channel.offer(
-                            Result.Success(FirebaseUserInfo(userData.getFirebaseUser(), null))
+                                Result.Success(FirebaseUserInfo(userData.getFirebaseUser(), null, false))
                         )
                     }
                 }
@@ -127,9 +130,9 @@ open class ObserveUserAuthStateUseCase @Inject constructor(
     }
 
     private fun ProducerScope<Result<AuthenticatedUserInfo>>.userSignedOut(
-        userData: AuthenticatedUserInfoBasic?
+        userData: AuthenticatedUserInfo?
     ) {
-        channel.offer(Result.Success(FirebaseUserInfo(userData?.getFirebaseUser(), null)))
+        channel.offer(Result.Success(FirebaseUserInfo(userData?.getFirebaseUser(), null, false)))
 
         unsubscribeFromCommentAndTagTopic(userData?.getUid() ?: "") // Stop receiving notifications
     }

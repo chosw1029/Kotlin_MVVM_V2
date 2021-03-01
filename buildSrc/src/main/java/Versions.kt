@@ -23,13 +23,14 @@ object Versions {
     const val TARGET_SDK = 29
     const val MIN_SDK = 21
 
+    const val AMPLIFY = "1.0.2"
     const val ANDROID_GRADLE_PLUGIN = "4.1.2"
     const val BENCHMARK = "1.0.0"
-    const val CRASHLYTICS = "2.3.0"
-    const val GOOGLE_SERVICES = "4.3.4"
+    const val CRASHLYTICS = "2.5.0"
+    const val GOOGLE_SERVICES = "4.3.5"
     const val KOTLIN = "1.4.10"
-    const val NAVIGATION = "2.3.1"
-    const val HILT = "2.29.1-alpha"
+    const val NAVIGATION = "2.3.3"
+    const val HILT = "2.32-alpha"
 
     // TODO: Remove this once the version for
     //  "org.threeten:threetenbp:${Versions.threetenbp}:no-tzdb" using java-platform in the

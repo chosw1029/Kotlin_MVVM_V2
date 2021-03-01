@@ -66,8 +66,6 @@ class FirebaseAuthStateUserDataSource @Inject constructor(
     @Volatile
     private var lastUid: String? = null
 
-    private var appUser: AppUser? = null
-
     override fun getBasicUserInfo(): Flow<Result<AuthenticatedUserInfoBasic?>> {
         return channelFlow<FirebaseAuth> {
             // Auth 상태 확인
@@ -97,13 +95,6 @@ class FirebaseAuthStateUserDataSource @Inject constructor(
                     // Call registration point to generate a result in Firestore
                     Timber.d("User authenticated, hitting registration endpoint")
                     RemoteClient.token = it
-                    //AuthenticatedUserRegistration.callRegistrationEndpoint(it, ioDispatcher)
-                    getUserUseCase(currentUser.uid).collect { result ->
-                        when(result) {
-                            is Result.Success -> appUser = result.data
-                            else -> {}
-                        }
-                    }
                 }
             } catch (e: Exception) {
                 Timber.e(e)
@@ -129,6 +120,6 @@ class FirebaseAuthStateUserDataSource @Inject constructor(
         lastUid = auth.uid
 
         // Send the current user for observers
-        return Result.Success(FirebaseUserInfo(auth.currentUser, appUser))
+        return Result.Success(FirebaseUserInfo(auth.currentUser, null))
     }
 }

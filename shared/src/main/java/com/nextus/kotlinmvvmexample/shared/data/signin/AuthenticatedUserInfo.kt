@@ -21,12 +21,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserInfo
 import com.nextus.kotlinmvvm.model.AppUser
 
-interface AuthenticatedUserInfo : AuthenticatedUserInfoBasic
-
 /**
  * Basic user info.
  */
-interface AuthenticatedUserInfoBasic {
+interface AuthenticatedUserInfo {
 
     fun isSignedIn(): Boolean
 
@@ -59,5 +57,7 @@ interface AuthenticatedUserInfoBasic {
     fun getAppUser(): AppUser?
 
     fun setAppUser(appUser: AppUser)
+
+    fun isNetworkError(): Boolean
 
 }

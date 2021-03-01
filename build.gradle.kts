@@ -5,10 +5,12 @@ buildscript {
         mavenCentral()
         jcenter()
         maven { url = uri("https://maven.fabric.io/public") }
+        maven { url = uri("https://jitpack.io") }
     }
     dependencies {
         classpath("com.android.tools.build:gradle:${Versions.ANDROID_GRADLE_PLUGIN}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}")
+        classpath("com.amplifyframework:amplify-tools-gradle-plugin:${Versions.AMPLIFY}")
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.NAVIGATION}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.HILT}")
         classpath("com.google.firebase:firebase-crashlytics-gradle:${Versions.CRASHLYTICS}")
@@ -38,7 +40,7 @@ subprojects {
         kotlin {
             target("**/*.kt")
             ktlint(ktlintVer).userData(
-                mapOf("max_line_length" to "100", "disabled_rules" to "import-ordering")
+                    mapOf("max_line_length" to "100", "disabled_rules" to "import-ordering")
             )
             licenseHeaderFile(project.rootProject.file("copyright.kt"))
         }
@@ -66,10 +68,10 @@ subprojects {
     // TODO: Remove when the Coroutine and Flow APIs leave experimental/internal/preview.
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
         kotlinOptions.freeCompilerArgs +=
-            "-Xuse-experimental=" +
-                    "kotlin.Experimental," +
-                    "kotlinx.coroutines.ExperimentalCoroutinesApi," +
-                    "kotlinx.coroutines.InternalCoroutinesApi," +
-                    "kotlinx.coroutines.FlowPreview"
+                "-Xuse-experimental=" +
+                        "kotlin.Experimental," +
+                        "kotlinx.coroutines.ExperimentalCoroutinesApi," +
+                        "kotlinx.coroutines.InternalCoroutinesApi," +
+                        "kotlinx.coroutines.FlowPreview"
     }
 }

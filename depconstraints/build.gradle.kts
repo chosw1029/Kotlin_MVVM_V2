@@ -22,37 +22,39 @@ plugins {
 val appcompat = "1.2.0"
 val activity = "1.1.0"
 val admob = "19.7.0"
+val amplify = "1.16.13"
 val cardview = "1.0.0"
 val circleImageView = "3.1.0"
 val archTesting = "2.0.0"
 val arcore = "1.7.0"
 val benchmark = "1.0.0"
 val browser = "1.0.0"
-val constraintLayout = "2.0.0"
+val constraintLayout = "2.0.4"
 val core = "1.3.2"
 val coroutines = "1.3.9"
 val coroutinesTest = "1.3.9"
-val crashlytics = "2.10.1"
 val drawerLayout = "1.1.1"
 val espresso = "3.1.1"
 val facebookAds = "6.2.0.1"
-val firebaseAnalytics = "18.0.0"
+val firebaseAnalytics = "18.0.2"
 val firebaseCrashlytics = "17.3.1"
 val firebaseAuth = "20.0.2"
 val firebaseConfig = "20.0.3"
 val firebaseMessaging = "21.0.1"
 val firebaseInAppMessaging = "19.1.2"
 val firebaseFirestore = "22.1.0"
-val firebaseUi = "6.2.0"
+val firebaseUi = "7.1.0"
 val flexbox = "1.1.0"
 val fragment = "1.2.4"
 val glide = "4.11.0"
+val glideSVG = "3.0.0"
 val googleMapUtils = "0.5"
 val googlePlayServicesMaps = "16.0.0"
 val googlePlayServicesVision = "17.0.2"
 val googleBasement = "17.5.0"
 val gson = "2.8.6"
 val hamcrest = "1.3"
+val htmlTextView ="3.9"
 val hilt = Versions.HILT
 val hiltJetPack = "1.0.0-alpha01"
 val imagePicker = "1.7.5"
@@ -64,6 +66,7 @@ val lottie = "3.4.4"
 val material = "1.1.0"
 val mockito = "3.3.1"
 val mockitoKotlin = "1.5.0"
+val mpAndroidChart = "v3.1.0"
 val okhttp = "3.10.0"
 val okio = "1.14.0"
 val pageIndicator = "1.3.0"
@@ -77,12 +80,15 @@ val threetenabp = "1.0.5"
 val timber = "4.7.1"
 val viewpager2 = "1.0.0"
 val work = "2.4.0"
-val youtube = "10.0.5"
+val youtube = "1.4.0"
 
 dependencies {
     constraints {
         api("${Libs.ACTIVITY_KTX}:$activity")
         api("${Libs.ADMOB}:$admob")
+        api("${Libs.AMPLIFY_CORE}:$amplify")
+        api("${Libs.AMPLIFY_STORAGE}:$amplify")
+        api("${Libs.AMPLIFY_AUTH}:$amplify")
         api("${Libs.ANDROIDX_HILT_COMPILER}:$hiltJetPack")
         api("${Libs.APPCOMPAT}:$appcompat")
         api("${Libs.CARDVIEW}:$cardview")
@@ -94,13 +100,13 @@ dependencies {
         api("${Libs.CORE_KTX}:$core")
         api("${Libs.COROUTINES}:$coroutines")
         api("${Libs.COROUTINES_TEST}:$coroutines")
-        api("${Libs.CRASHLYTICS}:$crashlytics")
         api("${Libs.DRAWER_LAYOUT}:$drawerLayout")
         api("${Libs.ESPRESSO_CORE}:$espresso")
         api("${Libs.ESPRESSO_CONTRIB}:$espresso")
         api("${Libs.FRAGMENT_KTX}:$fragment")
         api("${Libs.GLIDE}:$glide")
         api("${Libs.GLIDE_COMPILER}:$glide")
+        api("${Libs.GLIDE_SVG}:$glideSVG")
         api("${Libs.GOOGLE_BASEMENT}:$googleBasement")
         api("${Libs.GSON}:$gson")
         api("${Libs.HAMCREST}:$hamcrest")
@@ -109,6 +115,7 @@ dependencies {
         api("${Libs.HILT_COMPILER}:$hilt")
         api("${Libs.HILT_TESTING}:$hilt")
         api("${Libs.HILT_VIEWMODEL}:$hiltJetPack")
+        api("${Libs.HTML_TEXT_VIEW}:$htmlTextView")
         api("${Libs.IMAGE_PICKER}:$imagePicker")
         api("${Libs.INLINE_ACTIVITY_RESULT}:$inlineActivityResult")
         api("${Libs.JUNIT}:$junit")
@@ -121,6 +128,7 @@ dependencies {
         api("${Libs.MATERIAL}:$material")
         api("${Libs.MOCKITO_CORE}:$mockito")
         api("${Libs.MOCKITO_KOTLIN}:$mockitoKotlin")
+        api("${Libs.MP_ANDROID_CHART}:$mpAndroidChart")
         api("${Libs.NAVIGATION_FRAGMENT_KTX}:${Versions.NAVIGATION}")
         api("${Libs.NAVIGATION_UI_KTX}:${Versions.NAVIGATION}")
         api("${Libs.ROOM_KTX}:$room")
@@ -156,20 +164,6 @@ dependencies {
         api("${Libs.FIREBASE_UI_AUTH}:$firebaseUi")
 
         api("${Libs.YOUTUBE}:$youtube")
-
-        /*api("${Libs.ACTIVITY_KTX}:$activity")
-
-        api("${Libs.BROWSER}:$browser")
-
-
-
-
-        api("${Libs.FLEXBOX}:$flexbox")
-
-        api("${Libs.GOOGLE_MAP_UTILS}:$googleMapUtils")
-        api("${Libs.GOOGLE_PLAY_SERVICES_MAPS}:$googlePlayServicesMaps")
-        api("${Libs.GOOGLE_PLAY_SERVICES_VISION}:$googlePlayServicesVision")
-        */
     }
 }
 

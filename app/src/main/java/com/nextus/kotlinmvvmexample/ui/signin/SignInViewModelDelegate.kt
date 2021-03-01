@@ -90,7 +90,11 @@ interface SignInViewModelDelegate {
      */
     fun getUserId(): String?
 
-    fun getNickname(): LiveData<String?>
+    fun getNickname(): String?
+
+    fun getProfileUrl(): String
+
+    fun getUpdatedTime(): String?
 }
 
 /**
@@ -105,12 +109,12 @@ internal class FirebaseSignInViewModelDelegate @Inject constructor(
     override val performSignInEvent = MutableLiveData<Event<SignInEvent>>()
 
     private val currentFirebaseUser: Flow<Result<AuthenticatedUserInfo?>> =
-        observeUserAuthStateUseCase(Any()).map {
-            if (it is Result.Error) {
-                Timber.e(it.exception)
+            observeUserAuthStateUseCase(Any()).map {
+                if (it is Result.Error) {
+                    Timber.e(it.exception)
+                }
+                it
             }
-            it
-        }
 
     override val currentUserInfo: LiveData<AuthenticatedUserInfo?> = currentFirebaseUser.map {
         (it as? Result.Success)?.data
@@ -149,9 +153,11 @@ internal class FirebaseSignInViewModelDelegate @Inject constructor(
 
     override fun observeSignedInUser(): LiveData<Boolean> = isSignedIn
 
-    override fun getUserId(): String? {
-        return currentUserInfo.value?.getUid()
-    }
+    override fun getUserId(): String? = currentUserInfo.value?.getUid()
 
-    override fun getNickname(): LiveData<String?> = appUserInfo.map { it?.nickname }
+    override fun getNickname(): String? = currentUserInfo.value?.getAppUser()?.nickname
+
+    override fun getProfileUrl(): String = currentUserInfo.value?.getAppUser()?.getProfileImage() ?: ""
+
+    override fun getUpdatedTime(): String? = currentUserInfo.value?.getAppUser()?.updatedAt
 }

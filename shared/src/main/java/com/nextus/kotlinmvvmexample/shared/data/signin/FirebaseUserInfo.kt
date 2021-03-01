@@ -23,8 +23,9 @@ import com.google.firebase.auth.UserInfo
 import com.nextus.kotlinmvvm.model.AppUser
 
 class FirebaseUserInfo(
-    private val firebaseUser: FirebaseUser?,
-    private var appUser: AppUser?
+        private val firebaseUser: FirebaseUser?,
+        private var appUser: AppUser?,
+        private val isNetworkError: Boolean
 ) : AuthenticatedUserInfo {
 
     override fun isSignedIn(): Boolean = firebaseUser != null
@@ -38,6 +39,8 @@ class FirebaseUserInfo(
     override fun setAppUser(appUser: AppUser) {
         this.appUser = appUser
     }
+
+    override fun isNetworkError(): Boolean = isNetworkError
 
     override fun getEmail(): String? = firebaseUser?.email
 
